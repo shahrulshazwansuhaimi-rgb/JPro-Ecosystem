@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JPro Directory & Executive Network</title>
+    <!-- Favicon Logo JPro -->
     <link rel="icon" type="image/png" href="logo%20jro.png">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google OAuth SDK -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -41,6 +45,7 @@
 </head>
 <body class="bg-neutral-950 text-neutral-100 min-h-screen selection:bg-amber-500 selection:text-neutral-950">
 
+    <!-- GOOGLE OAUTH SECURITY OVERLAY -->
     <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-xl flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 md:p-10 max-w-md w-full text-center shadow-2xl relative overflow-hidden gold-glow">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
@@ -69,6 +74,7 @@
         </div>
     </div>
 
+    <!-- MODAL POP-UP KEMASKINI PROFIL DIRECT -->
     <div id="editProfileModal" class="fixed inset-0 z-50 bg-neutral-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
         <div class="glass-card rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative border border-amber-500/30 gold-glow">
             <button onclick="closeEditModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-neutral-100 text-xl transition">
@@ -122,6 +128,7 @@
         </div>
     </div>
 
+    <!-- NAVBAR EXECUTIVE BAR -->
     <nav class="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-lg sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -149,6 +156,7 @@
         </div>
     </nav>
 
+    <!-- MAIN WEBSITE HEADER -->
     <header class="bg-neutral-950 py-12 px-4 relative overflow-hidden border-b border-neutral-900">
         <div class="absolute inset-0 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
         <div class="max-w-6xl mx-auto text-center relative z-10">
@@ -194,8 +202,10 @@
         </div>
     </header>
 
+    <!-- Main Container -->
     <main class="max-w-6xl mx-auto px-4 py-10 relative min-h-[500px]">
 
+        <!-- SECTION 1: DIREKTORI AHLI -->
         <div id="directorySection" class="transition-all duration-300 ease-in-out opacity-100">
             <div class="glass-card p-4 rounded-2xl shadow-xl mb-10 flex flex-col md:flex-row gap-4 justify-between items-center">
                 <div class="relative w-full md:w-1/2">
@@ -229,14 +239,9 @@
             </div>
 
             <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
-
-            <div id="loadMoreContainer" class="mt-12 text-center hidden">
-                <button onclick="loadAllMembers()" class="gold-gradient-bg text-neutral-950 font-extrabold px-8 py-3.5 rounded-2xl shadow-xl hover:brightness-110 transition duration-300 text-xs md:text-sm inline-flex items-center gap-2 transform hover:-translate-y-0.5">
-                    <i class="fa-solid fa-compass"></i> Terokai Lagi Ahli JPro (<span id="remainingCount">0</span> Ahli)
-                </button>
-            </div>
         </div>
 
+        <!-- SECTION 2: CARTA ORGANISASI (ORG CHART 2025/2027) -->
         <div id="orgChartSection" class="transition-all duration-300 ease-in-out opacity-0 hidden">
             
             <div class="mb-14">
@@ -369,15 +374,13 @@
 
     </main>
 
+    <!-- JavaScript Engine -->
     <script>
         const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
-        // PAUTAN GOOGLE CSV DIRECT DARI SHEETS (PENGGANTI OPENCSHEET MENGELAK RAKUS/STUCK)
-        const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
+        const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
 
         let cachedMembersData = [];
-        let isExpanded = false;
-        const INITIAL_LIMIT = 6;
 
         function parseJwt(token) {
             try {
@@ -387,28 +390,6 @@
             } catch (e) {
                 return null;
             }
-        }
-
-        // FUNGSI PENUKAR DATA CSV GOOGLE SHEETS KEPADA OBJECT JSON
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-            if (lines.length === 0) return [];
-
-            const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g, '').trim());
-            const result = [];
-
-            for (let i = 1; i < lines.length; i++) {
-                // Sektor regex mengendalikan nilai yang mempunyai tanda koma di dalam petikan
-                const currentline = lines[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || lines[i].split(',');
-                const obj = {};
-                
-                headers.forEach((header, j) => {
-                    let val = currentline[j] ? currentline[j].replace(/^"|"$/g, '').trim() : '';
-                    obj[header] = val;
-                });
-                result.push(obj);
-            }
-            return result;
         }
 
         async function handleCredentialResponse(response) {
@@ -425,8 +406,7 @@
                 let members = cachedMembersData;
                 if (!members || members.length === 0) {
                     const res = await fetch(SHEET_URL);
-                    const csvText = await res.text();
-                    members = parseCSV(csvText);
+                    members = await res.json();
                     cachedMembersData = members;
                 }
                 
@@ -604,8 +584,7 @@
             try {
                 const response = await fetch(SHEET_URL);
                 if (!response.ok) throw new Error();
-                const csvText = await response.text();
-                const data = parseCSV(csvText);
+                const data = await response.json();
                 
                 cachedMembersData = data.length > 0 ? data : fallbackMembers;
                 document.getElementById('statTotalMembers').innerText = `${cachedMembersData.length} Ahli`;
@@ -622,12 +601,10 @@
 
         function renderCards(members) {
             const grid = document.getElementById('directoryGrid');
-            const loadMoreBtn = document.getElementById('loadMoreContainer');
-            const remainingCountSpan = document.getElementById('remainingCount');
             grid.innerHTML = '';
-            
             const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
 
+            // PENYARING SALINAN DUPILKASI
             const uniqueMembers = [];
             const seenEmails = new Set();
 
@@ -647,6 +624,7 @@
                 }
             });
 
+            // SUSUNAN: PROFIL TERKINI DI ATAS
             const sortedMembers = uniqueMembers.sort((a, b) => {
                 let emailA = '', emailB = '';
                 Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k] ? a[k].toString().toLowerCase().trim() : ''; });
@@ -657,16 +635,7 @@
                 return 0;
             });
 
-            const displayMembers = isExpanded ? sortedMembers : sortedMembers.slice(0, INITIAL_LIMIT);
-
-            if (sortedMembers.length > INITIAL_LIMIT && !isExpanded) {
-                loadMoreBtn.classList.remove('hidden');
-                remainingCountSpan.innerText = sortedMembers.length - INITIAL_LIMIT;
-            } else {
-                loadMoreBtn.classList.add('hidden');
-            }
-
-            displayMembers.forEach(m => {
+            sortedMembers.forEach(m => {
                 let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
 
                 Object.keys(m).forEach(key => {
@@ -736,23 +705,11 @@
             });
         }
 
-        function loadAllMembers() {
-            isExpanded = true;
-            renderCards(cachedMembersData);
-        }
-
         function filterDirectory() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
             const clusterFilter = document.getElementById('clusterFilter').value;
-            const loadMoreBtn = document.getElementById('loadMoreContainer');
-
-            if (searchInput !== '' || clusterFilter !== 'ALL') {
-                isExpanded = true;
-                renderCards(cachedMembersData);
-                loadMoreBtn.classList.add('hidden');
-            }
-
             const cards = document.querySelectorAll('.member-card');
+
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
                 const cluster = card.getAttribute('data-cluster').toLowerCase();
