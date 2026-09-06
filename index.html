@@ -33,7 +33,6 @@
             <h2 class="text-2xl font-bold text-neutral-100 mb-2">Portal Eksklusif JPro</h2>
             <p class="text-neutral-400 text-sm mb-6">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
             
-            <!-- Google Sign-In Button Container -->
             <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="114130991559-0156lce3d17ddr0i2g0suqpob1qn31sj.apps.googleusercontent.com"
@@ -45,6 +44,49 @@
             <p id="authError" class="text-red-400 text-xs mt-3 hidden">
                 <i class="fa-solid fa-triangle-exclamation"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
             </p>
+        </div>
+    </div>
+
+    <!-- MODAL POP-UP KEMASKINI PROFIL DIRECT (PROFESIONAL) -->
+    <div id="editProfileModal" class="fixed inset-0 z-50 bg-neutral-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-6 max-w-lg w-full shadow-2xl relative">
+            <button onclick="closeEditModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-100 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            
+            <h3 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-user-pen text-amber-400"></i> Kemaskini Profil Saya
+            </h3>
+            <p class="text-xs text-neutral-400 mb-5">Maklumat akan dikemas kini secara terus ke pangkalan data JPro.</p>
+
+            <form id="editProfileForm" onsubmit="submitProfileUpdate(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-medium text-amber-400/80 mb-1">Pautan Profil LinkedIn</label>
+                    <input type="url" id="editLinkedin" required placeholder="https://www.linkedin.com/in/username" 
+                        class="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-amber-400/80 mb-1">Jawatan & Organisasi</label>
+                    <input type="text" id="editJawatan" placeholder="Contoh: Pengurus Projek - Petronas" 
+                        class="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-amber-400/80 mb-1">Kemahiran Utama / Hashtag (Diasingkan dengan koma)</label>
+                    <input type="text" id="editKemahiran" placeholder="Contoh: Project Management, Strategy, Leadership" 
+                        class="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500">
+                </div>
+
+                <div class="pt-3 flex justify-end gap-2">
+                    <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-neutral-200 rounded-xl text-xs">
+                        Batal
+                    </button>
+                    <button type="submit" id="btnSubmitProfile" class="gold-gradient-bg text-neutral-950 font-bold px-5 py-2 rounded-xl text-xs shadow-md flex items-center gap-2">
+                        <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -62,13 +104,12 @@
                 Platform rasmi perangkaian LinkedIn, pangkalan direktori ahli, dan struktur carta organisasi JPro.
             </p>
             
-            <!-- BUTANG KEMASKINI PROFIL AHLI (SELF-SERVICE) -->
+            <!-- BUTANG POP-UP KEMASKINI PROFIL DIRECT -->
             <div id="userProfileBar" class="mb-6 flex flex-col sm:flex-row justify-center items-center gap-3">
                 <span id="welcomeUser" class="text-xs text-neutral-400"></span>
-                <a href="PAUTAN_GOOGLE_FORM_JPRO_ANDA" target="_blank" 
-                   class="bg-neutral-950 hover:bg-neutral-800 border border-amber-500/40 hover:border-amber-500 text-amber-400 font-medium text-xs px-4 py-2 rounded-xl transition shadow-md flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-amber-400"></i> Kemaskini LinkedIn / Profil Saya
-                </a>
+                <button onclick="openEditModal()" class="bg-neutral-950 hover:bg-neutral-800 border border-amber-500/40 hover:border-amber-500 text-amber-400 font-medium text-xs px-4 py-2 rounded-xl transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-amber-400"></i> Kemaskini Profil Saya
+                </button>
             </div>
 
             <!-- Navigation Tabs -->
@@ -283,6 +324,9 @@
     <script>
         const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
         const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
+        
+        // PAUTAN WEB APP GOOGLE APPS SCRIPT (SUDAH DISATUKAN)
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
 
         // Nyahkod JWT Token dari Google OAuth
         function parseJwt(token) {
@@ -300,7 +344,6 @@
                 const res = await fetch(SHEET_URL);
                 const members = await res.json();
                 
-                // Cari jika emel pengguna wujud dalam mana-mana kolum Google Sheet
                 const isAuthorized = members.some(m => 
                     Object.values(m).some(val => val.toString().toLowerCase() === userEmail)
                 );
@@ -333,6 +376,54 @@
                 if (savedEmail) updateUserDisplay(savedEmail);
             }
         });
+
+        // FUNGSI MODAL KEMASKINI PROFIL DIRECT
+        function openEditModal() {
+            document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editProfileModal').classList.add('hidden');
+        }
+
+        async function submitProfileUpdate(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btnSubmitProfile');
+            const userEmail = sessionStorage.getItem("jpro_user_email");
+
+            if(!userEmail) {
+                alert("Sesi anda telah tamat. Sila log masuk semula.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
+
+            const payload = {
+                email: userEmail,
+                linkedin: document.getElementById('editLinkedin').value,
+                jawatan: document.getElementById('editJawatan').value,
+                kemahiran: document.getElementById('editKemahiran').value
+            };
+
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert("Profil anda telah berjaya dikemas kini!");
+                closeEditModal();
+                setTimeout(fetchMembersData, 1000); // Muat semula direktori
+            } catch (error) {
+                alert("Gagal mengemas kini profil. Sila cuba lagi.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan`;
+            }
+        }
 
         function switchTab(tabName) {
             const dirSec = document.getElementById('directorySection');
