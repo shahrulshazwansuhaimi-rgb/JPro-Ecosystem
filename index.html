@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JPro Directory & Executive Network</title>
+    <!-- Favicon Logo JPro -->
     <link rel="icon" type="image/png" href="logo%20jro.png">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google OAuth SDK -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
@@ -32,7 +36,6 @@
         .gold-glow {
             box-shadow: 0 0 25px -5px rgba(191, 149, 63, 0.25);
         }
-        /* HIGHLIGHT AKAUN SENDIRI */
         .my-profile-card {
             border: 2px solid #BF953F !important;
             box-shadow: 0 0 30px -5px rgba(191, 149, 63, 0.45) !important;
@@ -42,6 +45,7 @@
 </head>
 <body class="bg-neutral-950 text-neutral-100 min-h-screen selection:bg-amber-500 selection:text-neutral-950">
 
+    <!-- GOOGLE OAUTH SECURITY OVERLAY -->
     <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-xl flex items-center justify-center p-4">
         <div class="glass-card rounded-3xl p-8 md:p-10 max-w-md w-full text-center shadow-2xl relative overflow-hidden gold-glow">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
@@ -64,12 +68,13 @@
                 <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large" data-shape="pill"></div>
             </div>
 
-            <p id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-2 px-3 rounded-xl">
+            <p id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-2.5 px-3 rounded-xl font-medium">
                 <i class="fa-solid fa-circle-exclamation mr-1"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
             </p>
         </div>
     </div>
 
+    <!-- MODAL POP-UP KEMASKINI PROFIL DIRECT -->
     <div id="editProfileModal" class="fixed inset-0 z-50 bg-neutral-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
         <div class="glass-card rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative border border-amber-500/30 gold-glow">
             <button onclick="closeEditModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-neutral-100 text-xl transition">
@@ -123,6 +128,7 @@
         </div>
     </div>
 
+    <!-- NAVBAR EXECUTIVE BAR -->
     <nav class="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-lg sticky top-0 z-40">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="flex items-center gap-3">
@@ -150,6 +156,7 @@
         </div>
     </nav>
 
+    <!-- MAIN WEBSITE HEADER -->
     <header class="bg-neutral-950 py-12 px-4 relative overflow-hidden border-b border-neutral-900">
         <div class="absolute inset-0 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
         <div class="max-w-6xl mx-auto text-center relative z-10">
@@ -168,10 +175,16 @@
                     <p class="text-xs text-neutral-400 uppercase font-semibold">Ahli Terdaftar</p>
                     <p id="statTotalMembers" class="text-xl md:text-2xl font-black text-amber-400">--</p>
                 </div>
-                <div class="glass-card p-3.5 rounded-2xl text-center">
-                    <p class="text-xs text-neutral-400 uppercase font-semibold">Kluster Kepakaran</p>
-                    <p class="text-xl md:text-2xl font-black text-amber-400">11 Sektor</p>
-                </div>
+                
+                <a href="https://jpro.org.my/kluster-profesional/" target="_blank" title="Buka Laman Web Kluster Profesional JPro" 
+                   class="glass-card p-3.5 rounded-2xl text-center block transition-all duration-300 hover:border-amber-400/80 hover:bg-amber-500/10 hover:scale-105 group relative overflow-hidden">
+                    <div class="flex items-center justify-center gap-1.5">
+                        <p class="text-xs text-neutral-400 group-hover:text-amber-300 uppercase font-semibold transition">Kluster Kepakaran</p>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-amber-400/70 group-hover:text-amber-300 transition"></i>
+                    </div>
+                    <p class="text-xl md:text-2xl font-black text-amber-400 group-hover:scale-105 transition">11 Sektor</p>
+                </a>
+
                 <div class="glass-card p-3.5 rounded-2xl text-center col-span-2 md:col-span-1">
                     <p class="text-xs text-neutral-400 uppercase font-semibold">Negeri Terlibat</p>
                     <p class="text-xl md:text-2xl font-black text-amber-400">14 Wilayah</p>
@@ -189,8 +202,10 @@
         </div>
     </header>
 
+    <!-- Main Container -->
     <main class="max-w-6xl mx-auto px-4 py-10 relative min-h-[500px]">
 
+        <!-- SECTION 1: DIREKTORI AHLI -->
         <div id="directorySection" class="transition-all duration-300 ease-in-out opacity-100">
             <div class="glass-card p-4 rounded-2xl shadow-xl mb-10 flex flex-col md:flex-row gap-4 justify-between items-center">
                 <div class="relative w-full md:w-1/2">
@@ -226,6 +241,7 @@
             <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
         </div>
 
+        <!-- SECTION 2: CARTA ORGANISASI (ORG CHART 2025/2027) -->
         <div id="orgChartSection" class="transition-all duration-300 ease-in-out opacity-0 hidden">
             
             <div class="mb-14">
@@ -358,40 +374,60 @@
 
     </main>
 
+    <!-- JavaScript Engine -->
     <script>
         const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
         const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
 
+        let cachedMembersData = [];
+
         function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            return JSON.parse(window.atob(base64));
+            try {
+                const base64Url = token.split('.')[1];
+                const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+                return JSON.parse(window.atob(base64));
+            } catch (e) {
+                return null;
+            }
         }
 
         async function handleCredentialResponse(response) {
             const responsePayload = parseJwt(response.credential);
-            const userEmail = responsePayload.email.toLowerCase();
+            if (!responsePayload || !responsePayload.email) {
+                document.getElementById("authError").innerText = "Gagal memproses maklumat Google Sign-In.";
+                document.getElementById("authError").classList.remove("hidden");
+                return;
+            }
+
+            const userEmail = responsePayload.email.toLowerCase().trim();
 
             try {
-                const res = await fetch(SHEET_URL);
-                const members = await res.json();
+                let members = cachedMembersData;
+                if (!members || members.length === 0) {
+                    const res = await fetch(SHEET_URL);
+                    members = await res.json();
+                    cachedMembersData = members;
+                }
                 
-                const isAuthorized = members.some(m => 
-                    Object.values(m).some(val => val.toString().toLowerCase() === userEmail)
+                const isAuthorized = Array.isArray(members) && members.some(m => 
+                    Object.values(m).some(val => val && val.toString().toLowerCase().trim() === userEmail)
                 );
 
                 if (isAuthorized) {
                     sessionStorage.setItem("jpro_google_auth", "true");
                     sessionStorage.setItem("jpro_user_email", userEmail);
                     document.getElementById("oauthOverlay").classList.add("hidden");
+                    document.getElementById("authError").classList.add("hidden");
                     updateUserDisplay(userEmail);
-                    fetchMembersData();
+                    renderCards(members);
                 } else {
+                    document.getElementById("authError").innerText = `Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula.`;
                     document.getElementById("authError").classList.remove("hidden");
                 }
             } catch (e) {
-                alert("Gagal menyemak rekod keahlian. Sila cuba sebentar lagi.");
+                document.getElementById("authError").innerText = "Gagal menyemak pangkalan data JPro. Sila cuba lagi.";
+                document.getElementById("authError").classList.remove("hidden");
             }
         }
 
@@ -414,6 +450,7 @@
                 const savedEmail = sessionStorage.getItem("jpro_user_email");
                 if (savedEmail) updateUserDisplay(savedEmail);
             }
+            fetchMembersData();
         });
 
         function openEditModal() {
@@ -496,7 +533,6 @@
             }
         }
 
-        // PENGIKTIRAFAN 11 KLUSTER RASMI
         function getClusterConfig(klusterText) {
             const text = (klusterText || '').toString().toLowerCase();
             
@@ -538,10 +574,8 @@
         }
 
         const fallbackMembers = [
-            { nama: "Shahrul Shazwan Suhaimi", email: "shahrulshazwansuhaimi@gmail.com", jawatan: "Timbalan Ketua Unit Korporat & Media", kluster: "Komunikasi & Media", kemahiran: "Public Policy, Media Strategy, Governance", linkedin: "https://linkedin.com" }
+            { nama: "Ahli JPro", email: "ahli@jpro.org.my", jawatan: "Ahli Profesional", kluster: "Teknologi Maklumat", kemahiran: "Professional, Strategy", linkedin: "https://linkedin.com" }
         ];
-
-        document.addEventListener("DOMContentLoaded", fetchMembersData);
 
         async function fetchMembersData() {
             const loading = document.getElementById('loading');
@@ -552,10 +586,11 @@
                 if (!response.ok) throw new Error();
                 const data = await response.json();
                 
-                const validMembers = data.length > 0 ? data : fallbackMembers;
-                document.getElementById('statTotalMembers').innerText = `${validMembers.length} Ahli`;
-                renderCards(validMembers);
+                cachedMembersData = data.length > 0 ? data : fallbackMembers;
+                document.getElementById('statTotalMembers').innerText = `${cachedMembersData.length} Ahli`;
+                renderCards(cachedMembersData);
             } catch (error) {
+                cachedMembersData = fallbackMembers;
                 document.getElementById('statTotalMembers').innerText = `${fallbackMembers.length} Ahli`;
                 renderCards(fallbackMembers);
             } finally {
@@ -567,12 +602,33 @@
         function renderCards(members) {
             const grid = document.getElementById('directoryGrid');
             grid.innerHTML = '';
-            const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase();
+            const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
 
-            const sortedMembers = [...members].sort((a, b) => {
+            // PENYARING SALINAN DUPILKASI
+            const uniqueMembers = [];
+            const seenEmails = new Set();
+
+            members.forEach(m => {
+                let email = '';
+                Object.keys(m).forEach(k => {
+                    if (k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) {
+                        email = m[k] ? m[k].toString().toLowerCase().trim() : '';
+                    }
+                });
+
+                if (email && !seenEmails.has(email)) {
+                    seenEmails.add(email);
+                    uniqueMembers.push(m);
+                } else if (!email) {
+                    uniqueMembers.push(m);
+                }
+            });
+
+            // SUSUNAN: PROFIL TERKINI DI ATAS
+            const sortedMembers = uniqueMembers.sort((a, b) => {
                 let emailA = '', emailB = '';
-                Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k].toString().toLowerCase(); });
-                Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k].toString().toLowerCase(); });
+                Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k] ? a[k].toString().toLowerCase().trim() : ''; });
+                Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k] ? b[k].toString().toLowerCase().trim() : ''; });
                 
                 if (emailA === loggedInEmail) return -1;
                 if (emailB === loggedInEmail) return 1;
@@ -593,7 +649,7 @@
                 });
 
                 nama = nama || m.nama || 'Ahli JPro';
-                email = (email || m.email || '').toString().toLowerCase();
+                email = (email || m.email || '').toString().toLowerCase().trim();
                 jawatan = jawatan || m.jawatan || 'Ahli Profesional';
                 kluster = kluster || m.kluster || 'Teknologi Maklumat';
                 kemahiran = kemahiran || m.kemahiran || '';
