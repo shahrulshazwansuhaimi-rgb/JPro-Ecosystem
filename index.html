@@ -32,7 +32,7 @@
         .gold-glow {
             box-shadow: 0 0 25px -5px rgba(191, 149, 63, 0.25);
         }
-        /* STYLES KHAS UNTUK HIGHLIGHT AKAUN SENDIRI */
+        /* HIGHLIGHT AKAUN SENDIRI */
         .my-profile-card {
             border: 2px solid #BF953F !important;
             box-shadow: 0 0 30px -5px rgba(191, 149, 63, 0.45) !important;
@@ -168,10 +168,16 @@
                     <p class="text-xs text-neutral-400 uppercase font-semibold">Ahli Terdaftar</p>
                     <p id="statTotalMembers" class="text-xl md:text-2xl font-black text-amber-400">--</p>
                 </div>
-                <div class="glass-card p-3.5 rounded-2xl text-center">
-                    <p class="text-xs text-neutral-400 uppercase font-semibold">Kluster Kepakaran</p>
-                    <p class="text-xl md:text-2xl font-black text-amber-400">11 Sektor</p>
-                </div>
+                
+                <a href="https://jpro.org.my/kluster-profesional/" target="_blank" title="Buka Laman Web Kluster Profesional JPro" 
+                   class="glass-card p-3.5 rounded-2xl text-center block transition-all duration-300 hover:border-amber-400/80 hover:bg-amber-500/10 hover:scale-105 group relative overflow-hidden">
+                    <div class="flex items-center justify-center gap-1.5">
+                        <p class="text-xs text-neutral-400 group-hover:text-amber-300 uppercase font-semibold transition">Kluster Kepakaran</p>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-amber-400/70 group-hover:text-amber-300 transition"></i>
+                    </div>
+                    <p class="text-xl md:text-2xl font-black text-amber-400 group-hover:scale-105 transition">11 Sektor</p>
+                </a>
+
                 <div class="glass-card p-3.5 rounded-2xl text-center col-span-2 md:col-span-1">
                     <p class="text-xs text-neutral-400 uppercase font-semibold">Negeri Terlibat</p>
                     <p class="text-xl md:text-2xl font-black text-amber-400">14 Wilayah</p>
@@ -203,16 +209,17 @@
                     <label for="clusterFilter" class="text-xs font-semibold text-amber-400/80 whitespace-nowrap uppercase tracking-wider">Kluster:</label>
                     <select id="clusterFilter" onchange="filterDirectory()" class="w-full md:w-auto bg-neutral-950/80 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs md:text-sm focus:outline-none focus:border-amber-500 text-neutral-200 transition">
                         <option value="ALL">Semua Kluster</option>
-                        <option value="Teknologi Maklumat">💻 Teknologi Maklumat</option>
-                        <option value="Kejuruteraan">🛠️ Kejuruteraan</option>
-                        <option value="Ekonomi">💼 Ekonomi</option>
                         <option value="Kesihatan">🩺 Kesihatan</option>
                         <option value="Pendidikan">🎓 Pendidikan</option>
+                        <option value="Kejuruteraan">🛠️ Kejuruteraan</option>
+                        <option value="Sains Sosial">👥 Sains Sosial</option>
                         <option value="Undang-undang">⚖️ Undang-undang</option>
+                        <option value="Teknologi Maklumat">💻 Teknologi Maklumat</option>
+                        <option value="Ekonomi">💼 Ekonomi & Kewangan</option>
+                        <option value="Sains & Teknologi">🔬 Sains & Teknologi</option>
                         <option value="Pengajian Islam">🕌 Pengajian Islam</option>
-                        <option value="Sains dan Teknologi">🔬 Sains & Teknologi</option>
-                        <option value="Media dan Komunikasi">📢 Media & Komunikasi</option>
-                        <option value="Pentadbiran & Polisi">🏛️ Pentadbiran & Polisi</option>
+                        <option value="Komunikasi & Media">📢 Komunikasi & Media</option>
+                        <option value="Alam Bina">🏗️ Alam Bina</option>
                     </select>
                 </div>
             </div>
@@ -261,389 +268,4 @@
                         <h4 class="text-base font-bold text-neutral-100">Iqbal Mohtar</h4>
                     </div>
                     <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
-                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Pegawai Operasi</span>
-                        <h4 class="text-base font-bold text-neutral-100">Nadhirah Osman</h4>
-                    </div>
-                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
-                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Unit Keahlian & Data</span>
-                        <h4 class="text-base font-bold text-neutral-100">Aminul Yusof</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-14">
-                <h2 class="text-center text-lg md:text-xl font-extrabold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-layer-group"></i> Unit-Unit Operasi & Pembangunan
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="glass-card p-5 rounded-2xl">
-                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Kajian & Perkhidmatan</span>
-                        <h4 class="text-base font-bold text-neutral-100 mt-1">Ketua: Syahir Sabri</h4>
-                        <p class="text-xs text-neutral-400 mt-1">Timbalan: Hani Ihsanuddin & Amir Ridwan</p>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl">
-                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Pembangunan Profesional</span>
-                        <h4 class="text-base font-bold text-neutral-100 mt-1">Luthfi Daulah</h4>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl">
-                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Jaringan & Hubungan Luar</span>
-                        <h4 class="text-base font-bold text-neutral-100 mt-1">Tengku Hadi</h4>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl">
-                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Korporat & Media</span>
-                        <h4 class="text-base font-bold text-neutral-100 mt-1">Ketua: Fazli Halim</h4>
-                        <p class="text-xs text-neutral-400 mt-1">Timbalan: Shahrul Suhaimi</p>
-                    </div>
-                    <div class="glass-card p-5 rounded-2xl">
-                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Tarbiah & Pengurusan Kluster</span>
-                        <h4 class="text-base font-bold text-neutral-100 mt-1">Ts Fais Razali</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-14">
-                <h2 class="text-center text-lg md:text-xl font-extrabold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-briefcase"></i> Ketua-Ketua Kluster Kepakaran
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-chart-line text-emerald-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">1. Ekonomi</p><h5 class="text-xs font-bold text-neutral-200">Asyraf Salleh</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-heart-pulse text-red-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">2. Kesihatan</p><h5 class="text-xs font-bold text-neutral-200">Dr Abdul Muntaqim Abu Bakar</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-graduation-cap text-purple-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">3. Pendidikan</p><h5 class="text-xs font-bold text-neutral-200">Ariffudin Dzulkhefli</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-scale-balanced text-amber-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">4. Undang-undang</p><h5 class="text-xs font-bold text-neutral-200">Saiful Izuan</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-laptop-code text-cyan-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">5. Teknologi Maklumat</p><h5 class="text-xs font-bold text-neutral-200">Naqib Asri</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-gears text-orange-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">6. Kejuruteraan</p><h5 class="text-xs font-bold text-neutral-200">Anwar Farid</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-mosque text-emerald-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">8. Pengajian Islam</p><h5 class="text-xs font-bold text-neutral-200">Ustaz Muhammad Mursyid Al-Amien Kayati</h5></div>
-                    </div>
-                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-bullhorn text-pink-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">11. Media dan Komunikasi</p><h5 class="text-xs font-bold text-neutral-200">Abdul Muhaimin bin Sakirin</h5></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-    <script>
-        const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
-        const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
-
-        function parseJwt(token) {
-            const base64Url = token.split('.')[1];
-            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            return JSON.parse(window.atob(base64));
-        }
-
-        async function handleCredentialResponse(response) {
-            const responsePayload = parseJwt(response.credential);
-            const userEmail = responsePayload.email.toLowerCase();
-
-            try {
-                const res = await fetch(SHEET_URL);
-                const members = await res.json();
-                
-                const isAuthorized = members.some(m => 
-                    Object.values(m).some(val => val.toString().toLowerCase() === userEmail)
-                );
-
-                if (isAuthorized) {
-                    sessionStorage.setItem("jpro_google_auth", "true");
-                    sessionStorage.setItem("jpro_user_email", userEmail);
-                    document.getElementById("oauthOverlay").classList.add("hidden");
-                    updateUserDisplay(userEmail);
-                    fetchMembersData();
-                } else {
-                    document.getElementById("authError").classList.remove("hidden");
-                }
-            } catch (e) {
-                alert("Gagal menyemak rekod keahlian. Sila cuba sebentar lagi.");
-            }
-        }
-
-        function updateUserDisplay(email) {
-            const welcomeUser = document.getElementById("welcomeUser");
-            if (welcomeUser && email) {
-                welcomeUser.innerText = email;
-            }
-        }
-
-        function logoutUser() {
-            sessionStorage.removeItem("jpro_google_auth");
-            sessionStorage.removeItem("jpro_user_email");
-            location.reload();
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            if (sessionStorage.getItem("jpro_google_auth") === "true") {
-                document.getElementById("oauthOverlay").classList.add("hidden");
-                const savedEmail = sessionStorage.getItem("jpro_user_email");
-                if (savedEmail) updateUserDisplay(savedEmail);
-            }
-        });
-
-        function openEditModal() {
-            document.getElementById('editProfileModal').classList.remove('hidden');
-        }
-
-        function closeEditModal() {
-            document.getElementById('editProfileModal').classList.add('hidden');
-        }
-
-        async function submitProfileUpdate(event) {
-            event.preventDefault();
-            const btn = document.getElementById('btnSubmitProfile');
-            const userEmail = sessionStorage.getItem("jpro_user_email");
-
-            if(!userEmail) {
-                alert("Sesi anda telah tamat. Sila log masuk semula.");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
-
-            const payload = {
-                email: userEmail,
-                nama: document.getElementById('editNama').value,
-                linkedin: document.getElementById('editLinkedin').value,
-                jawatan: document.getElementById('editJawatan').value,
-                kemahiran: document.getElementById('editKemahiran').value
-            };
-
-            try {
-                await fetch(APPS_SCRIPT_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                alert("Profil anda telah berjaya dikemas kini!");
-                closeEditModal();
-                setTimeout(fetchMembersData, 1200);
-            } catch (error) {
-                alert("Gagal mengemas kini profil. Sila cuba lagi.");
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan`;
-            }
-        }
-
-        function switchTab(tabName) {
-            const dirSec = document.getElementById('directorySection');
-            const orgSec = document.getElementById('orgChartSection');
-            const tabDirBtn = document.getElementById('tabDirectoryBtn');
-            const tabOrgBtn = document.getElementById('tabOrgBtn');
-
-            const activeBtnClass = "gold-gradient-bg text-neutral-950 font-extrabold px-6 py-3 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
-            const inactiveBtnClass = "bg-neutral-900 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-bold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
-
-            if (tabName === 'directory') {
-                tabDirBtn.className = activeBtnClass;
-                tabOrgBtn.className = inactiveBtnClass;
-                orgSec.classList.add('opacity-0');
-
-                setTimeout(() => {
-                    orgSec.classList.add('hidden');
-                    dirSec.classList.remove('hidden');
-                    setTimeout(() => dirSec.classList.remove('opacity-0'), 50);
-                }, 300);
-            } else {
-                tabOrgBtn.className = activeBtnClass;
-                tabDirBtn.className = inactiveBtnClass;
-                dirSec.classList.add('opacity-0');
-
-                setTimeout(() => {
-                    dirSec.classList.add('hidden');
-                    orgSec.classList.remove('hidden');
-                    setTimeout(() => orgSec.classList.remove('opacity-0'), 50);
-                }, 300);
-            }
-        }
-
-        function getClusterConfig(klusterText) {
-            const text = (klusterText || '').toString().toLowerCase();
-            
-            if (text.includes('teknologi') || text.includes('digital') || text.includes('it')) {
-                return { icon: "fa-laptop-code", color: "text-cyan-400", bg: "bg-cyan-400/10 border-cyan-400/30" };
-            } 
-            else if (text.includes('kejuruteraan') || text.includes('teknikal')) {
-                return { icon: "fa-gears", color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/30" };
-            } 
-            else if (text.includes('ekonomi') || text.includes('bisnes') || text.includes('kewangan')) {
-                return { icon: "fa-chart-line", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
-            } 
-            else if (text.includes('kesihatan') || text.includes('perubatan')) {
-                return { icon: "fa-heart-pulse", color: "text-red-400", bg: "bg-red-400/10 border-red-400/30" };
-            }
-            else if (text.includes('pendidikan') || text.includes('akademik')) {
-                return { icon: "fa-graduation-cap", color: "text-purple-400", bg: "bg-purple-400/10 border-purple-400/30" };
-            }
-            else if (text.includes('undang')) {
-                return { icon: "fa-scale-balanced", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
-            }
-            else if (text.includes('islam') || text.includes('agama')) {
-                return { icon: "fa-mosque", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
-            }
-            else if (text.includes('media') || text.includes('komunikasi')) {
-                return { icon: "fa-bullhorn", color: "text-pink-400", bg: "bg-pink-400/10 border-pink-400/30" };
-            }
-            
-            return { icon: "fa-user-tie", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
-        }
-
-        const fallbackMembers = [
-            { nama: "Shahrul Shazwan Suhaimi", email: "shahrulshazwansuhaimi@gmail.com", jawatan: "Pegawai Analisis Dasar", kluster: "Pentadbiran & Polisi", kemahiran: "Public Policy, Leadership, Governance", linkedin: "https://linkedin.com" },
-            { nama: "Khairul Anuar", email: "khairul@gmail.com", jawatan: "Pegawai Analisis Dasar", kluster: "Pentadbiran & Polisi", kemahiran: "Public Policy, Leadership", linkedin: "https://linkedin.com" }
-        ];
-
-        document.addEventListener("DOMContentLoaded", fetchMembersData);
-
-        async function fetchMembersData() {
-            const loading = document.getElementById('loading');
-            const grid = document.getElementById('directoryGrid');
-
-            try {
-                const response = await fetch(SHEET_URL);
-                if (!response.ok) throw new Error();
-                const data = await response.json();
-                
-                const validMembers = data.length > 0 ? data : fallbackMembers;
-                document.getElementById('statTotalMembers').innerText = `${validMembers.length} Ahli`;
-                renderCards(validMembers);
-            } catch (error) {
-                document.getElementById('statTotalMembers').innerText = `${fallbackMembers.length} Ahli`;
-                renderCards(fallbackMembers);
-            } finally {
-                loading.classList.add('hidden');
-                grid.classList.remove('hidden');
-            }
-        }
-
-        function renderCards(members) {
-            const grid = document.getElementById('directoryGrid');
-            grid.innerHTML = '';
-            const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase();
-
-            // SUSUN: UTAMAKAN PROFIL AHLI YANG SEDANG LOG MASUK DI ATAS
-            const sortedMembers = [...members].sort((a, b) => {
-                let emailA = '', emailB = '';
-                Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k].toString().toLowerCase(); });
-                Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k].toString().toLowerCase(); });
-                
-                if (emailA === loggedInEmail) return -1;
-                if (emailB === loggedInEmail) return 1;
-                return 0;
-            });
-
-            sortedMembers.forEach(m => {
-                let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
-
-                Object.keys(m).forEach(key => {
-                    const k = key.toLowerCase();
-                    if (k.includes('nama')) nama = m[key];
-                    else if (k.includes('emel') || k.includes('email')) email = m[key];
-                    else if (k.includes('jawatan') || k.includes('organisasi')) jawatan = m[key];
-                    else if (k.includes('kluster') || k.includes('sektor')) kluster = m[key];
-                    else if (k.includes('kemahiran') || k.includes('hashtag')) kemahiran = m[key];
-                    else if (k.includes('linkedin') || k.includes('pautan')) linkedin = m[key];
-                });
-
-                nama = nama || m.nama || 'Ahli JPro';
-                email = (email || m.email || '').toString().toLowerCase();
-                jawatan = jawatan || m.jawatan || 'Ahli Profesional';
-                kluster = kluster || m.kluster || 'Teknologi Maklumat';
-                kemahiran = kemahiran || m.kemahiran || '';
-                linkedin = linkedin || m.linkedin || '#';
-
-                const isCurrentUser = loggedInEmail && (email === loggedInEmail);
-                const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
-                const clusterConfig = getClusterConfig(kluster);
-
-                let skillsHTML = '';
-                if(kemahiran) {
-                    kemahiran.split(',').forEach(s => {
-                        const clean = s.trim().replace(/^#/, '');
-                        if (clean) skillsHTML += `<span class="bg-neutral-950/80 border border-amber-500/20 text-amber-200/90 text-[11px] px-2.5 py-1 rounded-lg inline-flex items-center gap-1 font-medium"><i class="fa-solid fa-hashtag text-amber-500/50 text-[9px]"></i>${clean}</span> `;
-                    });
-                }
-
-                grid.innerHTML += `
-                    <div class="member-card glass-card ${isCurrentUser ? 'my-profile-card' : ''} rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between relative overflow-hidden"
-                         data-name="${nama}" data-cluster="${kluster}" data-skills="${kemahiran}">
-                        
-                        ${isCurrentUser ? `
-                            <div class="absolute top-0 right-0 gold-gradient-bg text-neutral-950 text-[10px] font-black px-3 py-1 rounded-bl-xl shadow-md uppercase tracking-wider flex items-center gap-1">
-                                <i class="fa-solid fa-user-check"></i> Profil Saya
-                            </div>
-                        ` : ''}
-
-                        <div>
-                            <div class="flex justify-between items-start mb-5 ${isCurrentUser ? 'mt-2' : ''}">
-                                <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
-                                    ${initials}
-                                </div>
-                                <span class="${clusterConfig.bg} border ${clusterConfig.color} text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-                                    <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
-                                </span>
-                            </div>
-                            <h2 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
-                                ${nama}
-                                <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
-                            </h2>
-                            <p class="text-xs font-semibold text-amber-400/90 mb-4 flex items-center gap-2">
-                                <i class="fa-solid fa-briefcase text-neutral-500 text-xs"></i> ${jawatan}
-                            </p>
-                            <div class="flex flex-wrap gap-1.5 mb-6">
-                                ${skillsHTML}
-                            </div>
-                        </div>
-                        <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
-                            <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
-                        </a>
-                    </div>
-                `;
-            });
-        }
-
-        function filterDirectory() {
-            const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const clusterFilter = document.getElementById('clusterFilter').value;
-            const cards = document.querySelectorAll('.member-card');
-
-            cards.forEach(card => {
-                const name = card.getAttribute('data-name').toLowerCase();
-                const cluster = card.getAttribute('data-cluster').toLowerCase();
-                const skills = card.getAttribute('data-skills').toLowerCase();
-
-                const matchesSearch = name.includes(searchInput) || skills.includes(searchInput);
-                const matchesCluster = (clusterFilter === 'ALL') || cluster.includes(clusterFilter.toLowerCase());
-
-                card.style.display = (matchesSearch && matchesCluster) ? "flex" : "none";
-            });
-        }
-    </script>
-</body>
-</html>
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">
