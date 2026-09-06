@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPro Member Directory & Network Hub</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen">
+
+    <!-- Header Section -->
+    <header class="bg-indigo-900 text-white py-10 px-4 shadow-md">
+        <div class="max-w-6xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-2">Direktori Ahli JPro</h1>
+            <p class="text-indigo-200 text-base md:text-lg max-w-2xl mx-auto">
+                Perkasakan jaringan profesional, bina kolaborasi, dan hubungkan profil LinkedIn sesama ahli JPro.
+            </p>
+            <!-- Call to Action (Borang Tambah Profil) -->
+            <div class="mt-6">
+                <a href="#" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-full shadow-lg transition duration-200 inline-flex items-center gap-2">
+                    <i class="fa-solid fa-user-plus"></i> Kemas Kini Profil & Bingo Anda
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-6xl mx-auto px-4 py-8">
+
+        <!-- Controls: Search & Filter -->
+        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <!-- Search Bar -->
+            <div class="relative w-full md:w-1/2">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
+                <input type="text" id="searchInput" onkeyup="filterDirectory()" placeholder="Cari nama, jawatan, atau kemahiran..." 
+                    class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm">
+            </div>
+
+            <!-- Sector Filter -->
+            <div class="w-full md:w-auto flex items-center gap-2">
+                <label for="sectorFilter" class="text-sm font-medium text-slate-600 whitespace-nowrap">Sektor:</label>
+                <select id="sectorFilter" onchange="filterDirectory()" class="w-full md:w-auto bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="ALL">Semua Sektor</option>
+                    <option value="Sektor Awam">Sektor Awam</option>
+                    <option value="Sektor Swasta">Sektor Swasta</option>
+                    <option value="Pendidikan / Akademik">Pendidikan / Akademik</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Member Directory Cards Grid -->
+        <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Card 1 -->
+            <div class="member-card bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between"
+                 data-name="Ahmad Zulkarnain" data-sector="Sektor Awam" data-skills="Public Policy, Digital Gov, Strategic Plan">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-14 h-14 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-xl">
+                            AZ
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <i class="fa-solid fa-trophy text-emerald-600"></i> Bingo Completed
+                        </span>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-900">Ahmad Zulkarnain</h2>
+                    <p class="text-sm font-medium text-indigo-600 mb-1">Pegawai Tadbir & Diplomatik (PTD)</p>
+                    <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
+                        <i class="fa-solid fa-building"></i> Sektor Awam
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-6">
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#PublicPolicy</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#DigitalGov</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#StrategicPlan</span>
+                    </div>
+                </div>
+                <a href="https://linkedin.com" target="_blank" class="w-full bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-semibold py-2 rounded-xl text-center text-sm transition duration-150 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
+                </a>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="member-card bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between"
+                 data-name="Siti Nurhaliza Abdullah" data-sector="Sektor Swasta" data-skills="Project Management, Talent Dev, HR Analytics">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-14 h-14 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold text-xl">
+                            SA
+                        </div>
+                        <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <i class="fa-solid fa-hourglass-half text-amber-600"></i> In Progress
+                        </span>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-900">Siti Nurhaliza Abdullah</h2>
+                    <p class="text-sm font-medium text-indigo-600 mb-1">HR & Talent Development Lead</p>
+                    <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
+                        <i class="fa-solid fa-building"></i> Sektor Swasta
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-6">
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#ProjectManagement</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#TalentDev</span>
+                    </div>
+                </div>
+                <a href="https://linkedin.com" target="_blank" class="w-full bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-semibold py-2 rounded-xl text-center text-sm transition duration-150 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
+                </a>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="member-card bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between"
+                 data-name="Dr. Farhan Ismail" data-sector="Pendidikan / Akademik" data-skills="Research, Data Science, AI Governance">
+                <div>
+                    <div class="flex justify-between items-start mb-4">
+                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold text-xl">
+                            FI
+                        </div>
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
+                            <i class="fa-solid fa-trophy text-emerald-600"></i> Bingo Completed
+                        </span>
+                    </div>
+                    <h2 class="text-lg font-bold text-slate-900">Dr. Farhan Ismail</h2>
+                    <p class="text-sm font-medium text-indigo-600 mb-1">Pensyarah & Peneliti Data</p>
+                    <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
+                        <i class="fa-solid fa-graduation-cap"></i> Pendidikan / Akademik
+                    </p>
+                    <div class="flex flex-wrap gap-1.5 mb-6">
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#Research</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#DataScience</span>
+                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#AIGovernance</span>
+                    </div>
+                </div>
+                <a href="https://linkedin.com" target="_blank" class="w-full bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-semibold py-2 rounded-xl text-center text-sm transition duration-150 flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
+                </a>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- JavaScript Filter Functionality -->
+    <script>
+        function filterDirectory() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const sectorFilter = document.getElementById('sectorFilter').value;
+            const cards = document.querySelectorAll('.member-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const sector = card.getAttribute('data-sector');
+                const skills = card.getAttribute('data-skills').toLowerCase();
+
+                const matchesSearch = name.includes(searchInput) || skills.includes(searchInput);
+                const matchesSector = (sectorFilter === 'ALL') || (sector === sectorFilter);
+
+                if (matchesSearch && matchesSector) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
