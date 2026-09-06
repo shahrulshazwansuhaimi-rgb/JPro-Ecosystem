@@ -32,6 +32,7 @@
         .gold-glow {
             box-shadow: 0 0 25px -5px rgba(191, 149, 63, 0.25);
         }
+        /* HIGHLIGHT AKAUN SENDIRI */
         .my-profile-card {
             border: 2px solid #BF953F !important;
             box-shadow: 0 0 30px -5px rgba(191, 149, 63, 0.45) !important;
@@ -63,7 +64,7 @@
                 <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large" data-shape="pill"></div>
             </div>
 
-            <p id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-2.5 px-3 rounded-xl font-medium">
+            <p id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-2 px-3 rounded-xl">
                 <i class="fa-solid fa-circle-exclamation mr-1"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
             </p>
         </div>
@@ -167,16 +168,10 @@
                     <p class="text-xs text-neutral-400 uppercase font-semibold">Ahli Terdaftar</p>
                     <p id="statTotalMembers" class="text-xl md:text-2xl font-black text-amber-400">--</p>
                 </div>
-                
-                <a href="https://jpro.org.my/kluster-profesional/" target="_blank" title="Buka Laman Web Kluster Profesional JPro" 
-                   class="glass-card p-3.5 rounded-2xl text-center block transition-all duration-300 hover:border-amber-400/80 hover:bg-amber-500/10 hover:scale-105 group relative overflow-hidden">
-                    <div class="flex items-center justify-center gap-1.5">
-                        <p class="text-xs text-neutral-400 group-hover:text-amber-300 uppercase font-semibold transition">Kluster Kepakaran</p>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-amber-400/70 group-hover:text-amber-300 transition"></i>
-                    </div>
-                    <p class="text-xl md:text-2xl font-black text-amber-400 group-hover:scale-105 transition">11 Sektor</p>
-                </a>
-
+                <div class="glass-card p-3.5 rounded-2xl text-center">
+                    <p class="text-xs text-neutral-400 uppercase font-semibold">Kluster Kepakaran</p>
+                    <p class="text-xl md:text-2xl font-black text-amber-400">11 Sektor</p>
+                </div>
                 <div class="glass-card p-3.5 rounded-2xl text-center col-span-2 md:col-span-1">
                     <p class="text-xs text-neutral-400 uppercase font-semibold">Negeri Terlibat</p>
                     <p class="text-xl md:text-2xl font-black text-amber-400">14 Wilayah</p>
@@ -330,4 +325,346 @@
                     </div>
                     <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-scale-balanced text-amber-400 text-lg"></i>
-                        <div><p class="text-[11px] text-neutral-400">5. Undang-undang</
+                        <div><p class="text-[11px] text-neutral-400">5. Undang-undang</p><h5 class="text-xs font-bold text-neutral-200">Saiful Izuan</h5></div>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-laptop-code text-cyan-400 text-lg"></i>
+                        <div><p class="text-[11px] text-neutral-400">6. Teknologi Maklumat</p><h5 class="text-xs font-bold text-neutral-200">Naqib Asri</h5></div>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-chart-line text-emerald-400 text-lg"></i>
+                        <div><p class="text-[11px] text-neutral-400">7. Ekonomi & Kewangan</p><h5 class="text-xs font-bold text-neutral-200">Asyraf Salleh</h5></div>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-atom text-blue-400 text-lg"></i>
+                        <div><p class="text-[11px] text-neutral-400">8. Sains & Teknologi</p><h5 class="text-xs font-bold text-neutral-200">Fakhrurazi Yahya</h5></div>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-mosque text-emerald-400 text-lg"></i>
+                        <div><p class="text-[11px] text-neutral-400">9. Pengajian Islam</p><h5 class="text-xs font-bold text-neutral-200">Ustaz Muhammad Mursyid Al-Amien Kayati</h5></div>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-bullhorn text-pink-400 text-lg"></i>
+                        <div><p class="text-[11px] text-neutral-400">10. Komunikasi & Media</p><h5 class="text-xs font-bold text-neutral-200">Abdul Muhaimin bin Sakirin</h5></div>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-compass-drafting text-yellow-400 text-lg"></i>
+                        <div><p class="text-[11px] text-neutral-400">11. Alam Bina</p><h5 class="text-xs font-bold text-neutral-500">Belum dilantik</h5></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <script>
+        const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
+        const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
+
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64));
+        }
+
+        async function handleCredentialResponse(response) {
+            const responsePayload = parseJwt(response.credential);
+            const userEmail = responsePayload.email.toLowerCase();
+
+            try {
+                const res = await fetch(SHEET_URL);
+                const members = await res.json();
+                
+                const isAuthorized = members.some(m => 
+                    Object.values(m).some(val => val.toString().toLowerCase() === userEmail)
+                );
+
+                if (isAuthorized) {
+                    sessionStorage.setItem("jpro_google_auth", "true");
+                    sessionStorage.setItem("jpro_user_email", userEmail);
+                    document.getElementById("oauthOverlay").classList.add("hidden");
+                    updateUserDisplay(userEmail);
+                    fetchMembersData();
+                } else {
+                    document.getElementById("authError").classList.remove("hidden");
+                }
+            } catch (e) {
+                alert("Gagal menyemak rekod keahlian. Sila cuba sebentar lagi.");
+            }
+        }
+
+        function updateUserDisplay(email) {
+            const welcomeUser = document.getElementById("welcomeUser");
+            if (welcomeUser && email) {
+                welcomeUser.innerText = email;
+            }
+        }
+
+        function logoutUser() {
+            sessionStorage.removeItem("jpro_google_auth");
+            sessionStorage.removeItem("jpro_user_email");
+            location.reload();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (sessionStorage.getItem("jpro_google_auth") === "true") {
+                document.getElementById("oauthOverlay").classList.add("hidden");
+                const savedEmail = sessionStorage.getItem("jpro_user_email");
+                if (savedEmail) updateUserDisplay(savedEmail);
+            }
+        });
+
+        function openEditModal() {
+            document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editProfileModal').classList.add('hidden');
+        }
+
+        async function submitProfileUpdate(event) {
+            event.preventDefault();
+            const btn = document.getElementById('btnSubmitProfile');
+            const userEmail = sessionStorage.getItem("jpro_user_email");
+
+            if(!userEmail) {
+                alert("Sesi anda telah tamat. Sila log masuk semula.");
+                return;
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
+
+            const payload = {
+                email: userEmail,
+                nama: document.getElementById('editNama').value,
+                linkedin: document.getElementById('editLinkedin').value,
+                jawatan: document.getElementById('editJawatan').value,
+                kemahiran: document.getElementById('editKemahiran').value
+            };
+
+            try {
+                await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                alert("Profil anda telah berjaya dikemas kini!");
+                closeEditModal();
+                setTimeout(fetchMembersData, 1200);
+            } catch (error) {
+                alert("Gagal mengemas kini profil. Sila cuba lagi.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan`;
+            }
+        }
+
+        function switchTab(tabName) {
+            const dirSec = document.getElementById('directorySection');
+            const orgSec = document.getElementById('orgChartSection');
+            const tabDirBtn = document.getElementById('tabDirectoryBtn');
+            const tabOrgBtn = document.getElementById('tabOrgBtn');
+
+            const activeBtnClass = "gold-gradient-bg text-neutral-950 font-extrabold px-6 py-3 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
+            const inactiveBtnClass = "bg-neutral-900 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-bold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
+
+            if (tabName === 'directory') {
+                tabDirBtn.className = activeBtnClass;
+                tabOrgBtn.className = inactiveBtnClass;
+                orgSec.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    orgSec.classList.add('hidden');
+                    dirSec.classList.remove('hidden');
+                    setTimeout(() => dirSec.classList.remove('opacity-0'), 50);
+                }, 300);
+            } else {
+                tabOrgBtn.className = activeBtnClass;
+                tabDirBtn.className = inactiveBtnClass;
+                dirSec.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    dirSec.classList.add('hidden');
+                    orgSec.classList.remove('hidden');
+                    setTimeout(() => orgSec.classList.remove('opacity-0'), 50);
+                }, 300);
+            }
+        }
+
+        // PENGIKTIRAFAN 11 KLUSTER RASMI
+        function getClusterConfig(klusterText) {
+            const text = (klusterText || '').toString().toLowerCase();
+            
+            if (text.includes('kesihatan') || text.includes('perubatan')) {
+                return { icon: "fa-heart-pulse", color: "text-red-400", bg: "bg-red-400/10 border-red-400/30" };
+            }
+            else if (text.includes('pendidikan') || text.includes('akademik')) {
+                return { icon: "fa-graduation-cap", color: "text-purple-400", bg: "bg-purple-400/10 border-purple-400/30" };
+            }
+            else if (text.includes('kejuruteraan') || text.includes('teknikal')) {
+                return { icon: "fa-gears", color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/30" };
+            }
+            else if (text.includes('sains sosial') || text.includes('sosial')) {
+                return { icon: "fa-users", color: "text-indigo-400", bg: "bg-indigo-400/10 border-indigo-400/30" };
+            }
+            else if (text.includes('undang')) {
+                return { icon: "fa-scale-balanced", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
+            }
+            else if (text.includes('teknologi maklumat') || text.includes('it') || text.includes('digital')) {
+                return { icon: "fa-laptop-code", color: "text-cyan-400", bg: "bg-cyan-400/10 border-cyan-400/30" };
+            } 
+            else if (text.includes('ekonomi') || text.includes('kewangan') || text.includes('bisnes')) {
+                return { icon: "fa-chart-line", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
+            } 
+            else if (text.includes('sains & teknologi') || text.includes('sains dan teknologi')) {
+                return { icon: "fa-atom", color: "text-blue-400", bg: "bg-blue-400/10 border-blue-400/30" };
+            }
+            else if (text.includes('islam') || text.includes('agama')) {
+                return { icon: "fa-mosque", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
+            }
+            else if (text.includes('komunikasi') || text.includes('media')) {
+                return { icon: "fa-bullhorn", color: "text-pink-400", bg: "bg-pink-400/10 border-pink-400/30" };
+            }
+            else if (text.includes('alam bina') || text.includes('bina') || text.includes('senibina')) {
+                return { icon: "fa-compass-drafting", color: "text-yellow-400", bg: "bg-yellow-400/10 border-yellow-400/30" };
+            }
+            
+            return { icon: "fa-user-tie", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
+        }
+
+        const fallbackMembers = [
+            { nama: "Shahrul Shazwan Suhaimi", email: "shahrulshazwansuhaimi@gmail.com", jawatan: "Timbalan Ketua Unit Korporat & Media", kluster: "Komunikasi & Media", kemahiran: "Public Policy, Media Strategy, Governance", linkedin: "https://linkedin.com" }
+        ];
+
+        document.addEventListener("DOMContentLoaded", fetchMembersData);
+
+        async function fetchMembersData() {
+            const loading = document.getElementById('loading');
+            const grid = document.getElementById('directoryGrid');
+
+            try {
+                const response = await fetch(SHEET_URL);
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                
+                const validMembers = data.length > 0 ? data : fallbackMembers;
+                document.getElementById('statTotalMembers').innerText = `${validMembers.length} Ahli`;
+                renderCards(validMembers);
+            } catch (error) {
+                document.getElementById('statTotalMembers').innerText = `${fallbackMembers.length} Ahli`;
+                renderCards(fallbackMembers);
+            } finally {
+                loading.classList.add('hidden');
+                grid.classList.remove('hidden');
+            }
+        }
+
+        function renderCards(members) {
+            const grid = document.getElementById('directoryGrid');
+            grid.innerHTML = '';
+            const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase();
+
+            const sortedMembers = [...members].sort((a, b) => {
+                let emailA = '', emailB = '';
+                Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k].toString().toLowerCase(); });
+                Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k].toString().toLowerCase(); });
+                
+                if (emailA === loggedInEmail) return -1;
+                if (emailB === loggedInEmail) return 1;
+                return 0;
+            });
+
+            sortedMembers.forEach(m => {
+                let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
+
+                Object.keys(m).forEach(key => {
+                    const k = key.toLowerCase();
+                    if (k.includes('nama')) nama = m[key];
+                    else if (k.includes('emel') || k.includes('email')) email = m[key];
+                    else if (k.includes('jawatan') || k.includes('organisasi')) jawatan = m[key];
+                    else if (k.includes('kluster') || k.includes('sektor')) kluster = m[key];
+                    else if (k.includes('kemahiran') || k.includes('hashtag')) kemahiran = m[key];
+                    else if (k.includes('linkedin') || k.includes('pautan')) linkedin = m[key];
+                });
+
+                nama = nama || m.nama || 'Ahli JPro';
+                email = (email || m.email || '').toString().toLowerCase();
+                jawatan = jawatan || m.jawatan || 'Ahli Profesional';
+                kluster = kluster || m.kluster || 'Teknologi Maklumat';
+                kemahiran = kemahiran || m.kemahiran || '';
+                linkedin = linkedin || m.linkedin || '#';
+
+                const isCurrentUser = loggedInEmail && (email === loggedInEmail);
+                const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
+                const clusterConfig = getClusterConfig(kluster);
+
+                let skillsHTML = '';
+                if(kemahiran) {
+                    kemahiran.split(',').forEach(s => {
+                        const clean = s.trim().replace(/^#/, '');
+                        if (clean) skillsHTML += `<span class="bg-neutral-950/80 border border-amber-500/20 text-amber-200/90 text-[11px] px-2.5 py-1 rounded-lg inline-flex items-center gap-1 font-medium"><i class="fa-solid fa-hashtag text-amber-500/50 text-[9px]"></i>${clean}</span> `;
+                    });
+                }
+
+                grid.innerHTML += `
+                    <div class="member-card glass-card ${isCurrentUser ? 'my-profile-card' : ''} rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between relative overflow-hidden"
+                         data-name="${nama}" data-cluster="${kluster}" data-skills="${kemahiran}">
+                        
+                        ${isCurrentUser ? `
+                            <div class="absolute top-0 right-0 gold-gradient-bg text-neutral-950 text-[10px] font-black px-3 py-1 rounded-bl-xl shadow-md uppercase tracking-wider flex items-center gap-1">
+                                <i class="fa-solid fa-user-check"></i> Profil Saya
+                            </div>
+                        ` : ''}
+
+                        <div>
+                            <div class="flex justify-between items-start mb-5 ${isCurrentUser ? 'mt-2' : ''}">
+                                <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
+                                    ${initials}
+                                </div>
+                                <span class="${clusterConfig.bg} border ${clusterConfig.color} text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                                    <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
+                                </span>
+                            </div>
+                            <h2 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
+                                ${nama}
+                                <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
+                            </h2>
+                            <p class="text-xs font-semibold text-amber-400/90 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-briefcase text-neutral-500 text-xs"></i> ${jawatan}
+                            </p>
+                            <div class="flex flex-wrap gap-1.5 mb-6">
+                                ${skillsHTML}
+                            </div>
+                        </div>
+                        <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
+                        </a>
+                    </div>
+                `;
+            });
+        }
+
+        function filterDirectory() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const clusterFilter = document.getElementById('clusterFilter').value;
+            const cards = document.querySelectorAll('.member-card');
+
+            cards.forEach(card => {
+                const name = card.getAttribute('data-name').toLowerCase();
+                const cluster = card.getAttribute('data-cluster').toLowerCase();
+                const skills = card.getAttribute('data-skills').toLowerCase();
+
+                const matchesSearch = name.includes(searchInput) || skills.includes(searchInput);
+                const matchesCluster = (clusterFilter === 'ALL') || cluster.includes(clusterFilter.toLowerCase());
+
+                card.style.display = (matchesSearch && matchesCluster) ? "flex" : "none";
+            });
+        }
+    </script>
+</body>
+</html>
