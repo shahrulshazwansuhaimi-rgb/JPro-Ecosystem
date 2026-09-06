@@ -8,6 +8,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google OAuth SDK -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body { font-family: 'Inter', sans-serif; }
         .gold-gradient-bg {
@@ -22,7 +24,31 @@
 </head>
 <body class="bg-neutral-950 text-neutral-100 min-h-screen">
 
-    <!-- Header Section -->
+    <!-- GOOGLE OAUTH SECURITY OVERLAY -->
+    <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
+            <div class="w-16 h-16 gold-gradient-bg text-neutral-950 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-lg">
+                <i class="fa-solid fa-user-shield"></i>
+            </div>
+            <h2 class="text-2xl font-bold text-neutral-100 mb-2">Portal Eksklusif JPro</h2>
+            <p class="text-neutral-400 text-sm mb-6">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
+            
+            <!-- Google Sign-In Button Container -->
+            <div class="flex justify-center mb-4">
+                <div id="g_id_onload"
+                     data-client_id="114130991559-0156lce3d17ddr0i2g0suqpob1qn31sj.apps.googleusercontent.com"
+                     data-callback="handleCredentialResponse">
+                </div>
+                <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large"></div>
+            </div>
+
+            <p id="authError" class="text-red-400 text-xs mt-3 hidden">
+                <i class="fa-solid fa-triangle-exclamation"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
+            </p>
+        </div>
+    </div>
+
+    <!-- MAIN WEBSITE HEADER -->
     <header class="bg-neutral-900 border-b border-amber-600/30 py-10 px-4 shadow-2xl relative overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:16px_16px] opacity-10"></div>
         <div class="max-w-6xl mx-auto text-center relative z-10">
@@ -94,7 +120,6 @@
                     <i class="fa-solid fa-crown"></i> Pengurusan Tertinggi JPro 2025/2027
                 </h2>
                 
-                <!-- Ketua Pengarah -->
                 <div class="max-w-sm mx-auto bg-neutral-900 border-2 border-amber-500/80 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden mb-6">
                     <div class="w-16 h-16 gold-gradient-bg text-neutral-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-3 shadow-md">
                         KP
@@ -105,7 +130,6 @@
                     <h3 class="text-xl font-bold text-neutral-100">Dr Muhammad Fairuz Azmi</h3>
                 </div>
 
-                <!-- Timbalan Pengarah & Pentadbiran Utama -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Timbalan Pengarah I</span>
@@ -135,7 +159,7 @@
                 </div>
             </div>
 
-            <!-- 2. Ketua-Ketua Unit JPro -->
+            <!-- 2. Ketua Unit JPro -->
             <div class="mb-12">
                 <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
                     <i class="fa-solid fa-layer-group"></i> Unit-Unit Operasi & Pembangunan
@@ -246,11 +270,49 @@
 
     </main>
 
-    <!-- JavaScript Sync Engine -->
+    <!-- JavaScript Engine -->
     <script>
-        // SPREADSHEET ID SAYA DAH PASANGKAN DI SINI:
         const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
         const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
+
+        // Nyahkod JWT Token dari Google OAuth
+        function parseJwt(token) {
+            const base64Url = token.split('.')[1];
+            const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            return JSON.parse(window.atob(base64));
+        }
+
+        // Semak Emel dengan Data Google Sheets
+        async function handleCredentialResponse(response) {
+            const responsePayload = parseJwt(response.credential);
+            const userEmail = responsePayload.email.toLowerCase();
+
+            try {
+                const res = await fetch(SHEET_URL);
+                const members = await res.json();
+                
+                // Cari jika emel pengguna wujud dalam Google Sheet
+                const isAuthorized = members.some(m => 
+                    Object.values(m).some(val => val.toString().toLowerCase() === userEmail)
+                );
+
+                if (isAuthorized) {
+                    sessionStorage.setItem("jpro_google_auth", "true");
+                    document.getElementById("oauthOverlay").classList.add("hidden");
+                } else {
+                    document.getElementById("authError").classList.remove("hidden");
+                }
+            } catch (e) {
+                alert("Gagal menyemak rekod keahlian. Sila cuba sebentar lagi.");
+            }
+        }
+
+        // Semak Sesi Log Masuk
+        document.addEventListener("DOMContentLoaded", () => {
+            if (sessionStorage.getItem("jpro_google_auth") === "true") {
+                document.getElementById("oauthOverlay").classList.add("hidden");
+            }
+        });
 
         function switchTab(tabName) {
             const dirSec = document.getElementById('directorySection');
@@ -264,33 +326,22 @@
             if (tabName === 'directory') {
                 tabDirBtn.className = activeBtnClass;
                 tabOrgBtn.className = inactiveBtnClass;
-
-                orgSec.classList.remove('opacity-100');
                 orgSec.classList.add('opacity-0');
 
                 setTimeout(() => {
                     orgSec.classList.add('hidden');
                     dirSec.classList.remove('hidden');
-                    setTimeout(() => {
-                        dirSec.classList.remove('opacity-0');
-                        dirSec.classList.add('opacity-100');
-                    }, 50);
+                    setTimeout(() => dirSec.classList.remove('opacity-0'), 50);
                 }, 300);
-
             } else {
                 tabOrgBtn.className = activeBtnClass;
                 tabDirBtn.className = inactiveBtnClass;
-
-                dirSec.classList.remove('opacity-100');
                 dirSec.classList.add('opacity-0');
 
                 setTimeout(() => {
                     dirSec.classList.add('hidden');
                     orgSec.classList.remove('hidden');
-                    setTimeout(() => {
-                        orgSec.classList.remove('opacity-0');
-                        orgSec.classList.add('opacity-100');
-                    }, 50);
+                    setTimeout(() => orgSec.classList.remove('opacity-0'), 50);
                 }, 300);
             }
         }
@@ -331,8 +382,7 @@
 
         const fallbackMembers = [
             { nama: "Shahrul Suhaimi", jawatan: "Timbalan Ketua Unit Korporat & Media", kluster: "Media dan Komunikasi", kemahiran: "Corporate Strategy, Media Relations", linkedin: "https://linkedin.com" },
-            { nama: "Naqib Asri", jawatan: "Ketua Kluster Teknologi Maklumat", kluster: "Teknologi Maklumat", kemahiran: "IT Infrastructure, Cybersecurity", linkedin: "https://linkedin.com" },
-            { nama: "Dr Abdul Muntaqim Abu Bakar", jawatan: "Ketua Kluster Kesihatan", kluster: "Kesihatan", kemahiran: "Public Health, Medical Research", linkedin: "https://linkedin.com" }
+            { nama: "Naqib Asri", jawatan: "Ketua Kluster Teknologi Maklumat", kluster: "Teknologi Maklumat", kemahiran: "IT Infrastructure, Cybersecurity", linkedin: "https://linkedin.com" }
         ];
 
         document.addEventListener("DOMContentLoaded", fetchMembersData);
