@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>JPro Directory & Executive Network</title>
+    <!-- Favicon Logo JPro -->
+    <link rel="icon" type="image/png" href="logo%20jro.png">
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
@@ -11,7 +13,9 @@
     <!-- Google OAuth SDK -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        
         .gold-gradient-bg {
             background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
         }
@@ -20,69 +24,93 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        .glass-card {
+            background: rgba(23, 23, 23, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(191, 149, 63, 0.15);
+        }
+        .glass-card:hover {
+            border-color: rgba(191, 149, 63, 0.4);
+            box-shadow: 0 10px 30px -10px rgba(191, 149, 63, 0.15);
+        }
+        .gold-glow {
+            box-shadow: 0 0 25px -5px rgba(191, 149, 63, 0.25);
+        }
     </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 min-h-screen">
+<body class="bg-neutral-950 text-neutral-100 min-h-screen selection:bg-amber-500 selection:text-neutral-950">
 
     <!-- GOOGLE OAUTH SECURITY OVERLAY -->
-    <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-8 max-w-md w-full text-center shadow-2xl">
-            <div class="w-16 h-16 gold-gradient-bg text-neutral-950 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold shadow-lg">
-                <i class="fa-solid fa-user-shield"></i>
+    <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="glass-card rounded-3xl p-8 md:p-10 max-w-md w-full text-center shadow-2xl relative overflow-hidden gold-glow">
+            <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
+            
+            <!-- GAMBAR LOGO RASMI JPRO -->
+            <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center p-2 rounded-2xl bg-neutral-900/80 border border-amber-500/30 gold-glow">
+                <img src="logo%20jro.png" alt="Logo JPro" class="max-h-full max-w-full object-contain">
             </div>
-            <h2 class="text-2xl font-bold text-neutral-100 mb-2">Portal Eksklusif JPro</h2>
-            <p class="text-neutral-400 text-sm mb-6">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
+
+            <span class="px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-[11px] font-bold tracking-widest uppercase mb-3 inline-block">
+                Akses Terhad
+            </span>
+            <h2 class="text-2xl md:text-3xl font-extrabold text-neutral-100 mb-2">Portal Eksklusif JPro</h2>
+            <p class="text-neutral-400 text-xs md:text-sm mb-8 leading-relaxed">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
             
             <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="114130991559-0156lce3d17ddr0i2g0suqpob1qn31sj.apps.googleusercontent.com"
                      data-callback="handleCredentialResponse">
                 </div>
-                <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large"></div>
+                <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large" data-shape="pill"></div>
             </div>
 
-            <p id="authError" class="text-red-400 text-xs mt-3 hidden">
-                <i class="fa-solid fa-triangle-exclamation"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
+            <p id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-2 px-3 rounded-xl">
+                <i class="fa-solid fa-circle-exclamation mr-1"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
             </p>
         </div>
     </div>
 
-    <!-- MODAL POP-UP KEMASKINI PROFIL DIRECT (PROFESIONAL) -->
-    <div id="editProfileModal" class="fixed inset-0 z-50 bg-neutral-950/80 backdrop-blur-sm flex items-center justify-center p-4 hidden">
-        <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-6 max-w-lg w-full shadow-2xl relative">
-            <button onclick="closeEditModal()" class="absolute top-4 right-4 text-neutral-400 hover:text-neutral-100 text-lg">
+    <!-- MODAL POP-UP KEMASKINI PROFIL DIRECT -->
+    <div id="editProfileModal" class="fixed inset-0 z-50 bg-neutral-950/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+        <div class="glass-card rounded-3xl p-6 md:p-8 max-w-lg w-full shadow-2xl relative border border-amber-500/30 gold-glow">
+            <button onclick="closeEditModal()" class="absolute top-5 right-5 text-neutral-400 hover:text-neutral-100 text-xl transition">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             
-            <h3 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-user-pen text-amber-400"></i> Kemaskini Profil Saya
-            </h3>
-            <p class="text-xs text-neutral-400 mb-5">Maklumat akan dikemas kini secara terus ke pangkalan data JPro.</p>
-
-            <form id="editProfileForm" onsubmit="submitProfileUpdate(event)" class="space-y-4">
+            <div class="flex items-center gap-3 mb-2">
+                <div class="w-10 h-10 gold-gradient-bg text-neutral-950 rounded-xl flex items-center justify-center font-bold text-lg">
+                    <i class="fa-solid fa-user-pen"></i>
+                </div>
                 <div>
-                    <label class="block text-xs font-medium text-amber-400/80 mb-1">Pautan Profil LinkedIn</label>
+                    <h3 class="text-xl font-bold text-neutral-100">Kemaskini Profil Saya</h3>
+                    <p class="text-xs text-neutral-400">Kemaskini terus ke pangkalan data rasmi JPro.</p>
+                </div>
+            </div>
+
+            <form id="editProfileForm" onsubmit="submitProfileUpdate(event)" class="space-y-4 mt-6">
+                <div>
+                    <label class="block text-xs font-semibold text-amber-400/90 mb-1.5 uppercase tracking-wider">Pautan Profil LinkedIn</label>
                     <input type="url" id="editLinkedin" required placeholder="https://www.linkedin.com/in/username" 
-                        class="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500">
+                        class="w-full px-4 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500 transition">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-medium text-amber-400/80 mb-1">Jawatan & Organisasi</label>
+                    <label class="block text-xs font-semibold text-amber-400/90 mb-1.5 uppercase tracking-wider">Jawatan & Organisasi</label>
                     <input type="text" id="editJawatan" placeholder="Contoh: Pengurus Projek - Petronas" 
-                        class="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500">
+                        class="w-full px-4 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500 transition">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-medium text-amber-400/80 mb-1">Kemahiran Utama / Hashtag (Diasingkan dengan koma)</label>
-                    <input type="text" id="editKemahiran" placeholder="Contoh: Project Management, Strategy, Leadership" 
-                        class="w-full px-3 py-2 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500">
+                    <label class="block text-xs font-semibold text-amber-400/90 mb-1.5 uppercase tracking-wider">Kemahiran Utama / Hashtag (Asingkan dengan koma)</label>
+                    <input type="text" id="editKemahiran" placeholder="Contoh: Leadership, Public Policy, Corporate Strategy" 
+                        class="w-full px-4 py-3 bg-neutral-950 border border-neutral-800 rounded-xl text-xs text-neutral-200 focus:outline-none focus:border-amber-500 transition">
                 </div>
 
-                <div class="pt-3 flex justify-end gap-2">
-                    <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-neutral-950 border border-neutral-800 text-neutral-400 hover:text-neutral-200 rounded-xl text-xs">
+                <div class="pt-4 flex justify-end gap-3">
+                    <button type="button" onclick="closeEditModal()" class="px-5 py-2.5 bg-neutral-950 hover:bg-neutral-900 border border-neutral-800 text-neutral-400 hover:text-neutral-200 rounded-xl text-xs font-medium transition">
                         Batal
                     </button>
-                    <button type="submit" id="btnSubmitProfile" class="gold-gradient-bg text-neutral-950 font-bold px-5 py-2 rounded-xl text-xs shadow-md flex items-center gap-2">
+                    <button type="submit" id="btnSubmitProfile" class="gold-gradient-bg text-neutral-950 font-bold px-6 py-2.5 rounded-xl text-xs shadow-lg hover:brightness-110 transition flex items-center gap-2">
                         <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
                     </button>
                 </div>
@@ -90,34 +118,72 @@
         </div>
     </div>
 
+    <!-- NAVBAR EXECUTIVE BAR -->
+    <nav class="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-lg sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <!-- GAMBAR LOGO RASMI DI NAVBAR -->
+                <img src="logo%20jro.png" alt="Logo JPro" class="h-9 w-auto object-contain">
+                <span class="font-bold text-sm tracking-tight hidden sm:inline-block border-l border-neutral-800 pl-3 text-neutral-300">
+                    Jabatan Profesional Muda
+                </span>
+            </div>
+
+            <!-- USER PROFILE BAR & BUTTON SIGN OUT -->
+            <div id="userProfileBar" class="flex items-center gap-2 sm:gap-3">
+                <div class="hidden md:flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="welcomeUser" class="text-xs text-neutral-300 font-medium"></span>
+                </div>
+                
+                <button onclick="openEditModal()" class="bg-neutral-900 hover:bg-neutral-800 border border-amber-500/40 hover:border-amber-500 text-amber-400 font-medium text-xs px-3.5 py-1.5 rounded-xl transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-amber-400"></i> <span class="hidden sm:inline">Kemaskini Profil</span>
+                </button>
+
+                <button onclick="logoutUser()" title="Log Keluar" class="bg-neutral-900 hover:bg-red-950/60 border border-neutral-800 hover:border-red-500/40 text-neutral-400 hover:text-red-400 text-xs px-3 py-1.5 rounded-xl transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    <span class="hidden sm:inline">Log Keluar</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
     <!-- MAIN WEBSITE HEADER -->
-    <header class="bg-neutral-900 border-b border-amber-600/30 py-10 px-4 shadow-2xl relative overflow-hidden">
-        <div class="absolute inset-0 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:16px_16px] opacity-10"></div>
+    <header class="bg-neutral-950 py-12 px-4 relative overflow-hidden border-b border-neutral-900">
+        <div class="absolute inset-0 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:24px_24px] opacity-10"></div>
         <div class="max-w-6xl mx-auto text-center relative z-10">
-            <span class="inline-block px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-xs font-semibold tracking-widest uppercase mb-3">
-                Jabatan Profesional Muda 2025/2027
+            <span class="inline-block px-4 py-1.5 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-xs font-bold tracking-widest uppercase mb-4 shadow-inner">
+                Sesi 2025 / 2027
             </span>
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
+            <h1 class="text-4xl md:text-6xl font-black tracking-tight mb-4">
                 Ekosistem <span class="gold-text">Kepimpinan & Ahli JPro</span>
             </h1>
-            <p class="text-neutral-400 text-sm md:text-base max-w-2xl mx-auto mb-4 font-light">
-                Platform rasmi perangkaian LinkedIn, pangkalan direktori ahli, dan struktur carta organisasi JPro.
+            <p class="text-neutral-400 text-sm md:text-base max-w-2xl mx-auto mb-8 font-normal leading-relaxed">
+                Platform rasmi perangkaian LinkedIn, pangkalan direktori ahli profesional, dan struktur carta organisasi kepimpinan JPro.
             </p>
             
-            <!-- BUTANG POP-UP KEMASKINI PROFIL DIRECT -->
-            <div id="userProfileBar" class="mb-6 flex flex-col sm:flex-row justify-center items-center gap-3">
-                <span id="welcomeUser" class="text-xs text-neutral-400"></span>
-                <button onclick="openEditModal()" class="bg-neutral-950 hover:bg-neutral-800 border border-amber-500/40 hover:border-amber-500 text-amber-400 font-medium text-xs px-4 py-2 rounded-xl transition shadow-md flex items-center gap-2">
-                    <i class="fa-solid fa-pen-to-square text-amber-400"></i> Kemaskini Profil Saya
-                </button>
+            <!-- QUICK STATS BAR -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl mx-auto mb-8">
+                <div class="glass-card p-3.5 rounded-2xl text-center">
+                    <p class="text-xs text-neutral-400 uppercase font-semibold">Ahli Terdaftar</p>
+                    <p id="statTotalMembers" class="text-xl md:text-2xl font-black text-amber-400">--</p>
+                </div>
+                <div class="glass-card p-3.5 rounded-2xl text-center">
+                    <p class="text-xs text-neutral-400 uppercase font-semibold">Kluster Kepakaran</p>
+                    <p class="text-xl md:text-2xl font-black text-amber-400">11 Sektor</p>
+                </div>
+                <div class="glass-card p-3.5 rounded-2xl text-center col-span-2 md:col-span-1">
+                    <p class="text-xs text-neutral-400 uppercase font-semibold">Negeri Terlibat</p>
+                    <p class="text-xl md:text-2xl font-black text-amber-400">14 Wilayah</p>
+                </div>
             </div>
 
             <!-- Navigation Tabs -->
-            <div class="flex justify-center gap-3 mt-4">
-                <button onclick="switchTab('directory')" id="tabDirectoryBtn" class="gold-gradient-bg text-neutral-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 text-sm">
+            <div class="flex justify-center gap-3">
+                <button onclick="switchTab('directory')" id="tabDirectoryBtn" class="gold-gradient-bg text-neutral-950 font-extrabold px-6 py-3 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5">
                     <i class="fa-solid fa-users"></i> Direktori Ahli
                 </button>
-                <button onclick="switchTab('orgchart')" id="tabOrgBtn" class="bg-neutral-950 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 text-sm">
+                <button onclick="switchTab('orgchart')" id="tabOrgBtn" class="bg-neutral-900 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-bold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5">
                     <i class="fa-solid fa-sitemap"></i> Carta Organisasi JPro
                 </button>
             </div>
@@ -129,16 +195,16 @@
 
         <!-- SECTION 1: DIREKTORI AHLI -->
         <div id="directorySection" class="transition-all duration-300 ease-in-out opacity-100">
-            <div class="bg-neutral-900/80 backdrop-blur p-5 rounded-2xl border border-amber-600/20 shadow-xl mb-10 flex flex-col md:flex-row gap-4 justify-between items-center">
+            <div class="glass-card p-4 rounded-2xl shadow-xl mb-10 flex flex-col md:flex-row gap-4 justify-between items-center">
                 <div class="relative w-full md:w-1/2">
-                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-amber-500/60"></i>
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-amber-500/60 text-sm"></i>
                     <input type="text" id="searchInput" onkeyup="filterDirectory()" placeholder="Cari nama, jawatan, atau kemahiran..." 
-                        class="w-full pl-11 pr-4 py-2.5 bg-neutral-950 border border-neutral-800 rounded-xl focus:outline-none focus:border-amber-500 text-neutral-200 text-sm placeholder-neutral-500">
+                        class="w-full pl-11 pr-4 py-2.5 bg-neutral-950/80 border border-neutral-800 rounded-xl focus:outline-none focus:border-amber-500 text-neutral-200 text-xs md:text-sm placeholder-neutral-500 transition">
                 </div>
 
                 <div class="w-full md:w-auto flex items-center gap-3">
-                    <label for="clusterFilter" class="text-sm font-medium text-amber-400/80 whitespace-nowrap">Kluster:</label>
-                    <select id="clusterFilter" onchange="filterDirectory()" class="w-full md:w-auto bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-neutral-200">
+                    <label for="clusterFilter" class="text-xs font-semibold text-amber-400/80 whitespace-nowrap uppercase tracking-wider">Kluster:</label>
+                    <select id="clusterFilter" onchange="filterDirectory()" class="w-full md:w-auto bg-neutral-950/80 border border-neutral-800 rounded-xl px-4 py-2.5 text-xs md:text-sm focus:outline-none focus:border-amber-500 text-neutral-200 transition">
                         <option value="ALL">Semua Kluster</option>
                         <option value="Teknologi Maklumat">💻 Teknologi Maklumat</option>
                         <option value="Kejuruteraan">🛠️ Kejuruteraan</option>
@@ -149,13 +215,14 @@
                         <option value="Pengajian Islam">🕌 Pengajian Islam</option>
                         <option value="Sains dan Teknologi">🔬 Sains & Teknologi</option>
                         <option value="Media dan Komunikasi">📢 Media & Komunikasi</option>
+                        <option value="Pentadbiran & Polisi">🏛️ Pentadbiran & Polisi</option>
                     </select>
                 </div>
             </div>
 
-            <div id="loading" class="text-center py-16">
+            <div id="loading" class="text-center py-20">
                 <i class="fa-solid fa-circle-notch fa-spin text-amber-500 text-4xl mb-4"></i>
-                <p class="text-neutral-400 font-light">Memuatkan direktori kluster JPro dari Google Sheets...</p>
+                <p class="text-neutral-400 text-sm font-light">Memuatkan direktori kluster JPro dari Google Sheets...</p>
             </div>
 
             <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
@@ -165,44 +232,44 @@
         <div id="orgChartSection" class="transition-all duration-300 ease-in-out opacity-0 hidden">
             
             <!-- 1. Pengurusan Tertinggi -->
-            <div class="mb-12">
-                <h2 class="text-center text-2xl font-bold text-amber-400 mb-8 uppercase tracking-wider flex items-center justify-center gap-2">
+            <div class="mb-14">
+                <h2 class="text-center text-xl md:text-2xl font-black text-amber-400 mb-8 uppercase tracking-widest flex items-center justify-center gap-2">
                     <i class="fa-solid fa-crown"></i> Pengurusan Tertinggi JPro 2025/2027
                 </h2>
                 
-                <div class="max-w-sm mx-auto bg-neutral-900 border-2 border-amber-500/80 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden mb-6">
-                    <div class="w-16 h-16 gold-gradient-bg text-neutral-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-3 shadow-md">
+                <div class="max-w-sm mx-auto glass-card rounded-3xl p-6 text-center shadow-2xl relative overflow-hidden mb-8 border-2 border-amber-500/50 gold-glow">
+                    <div class="w-20 h-20 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-2xl mx-auto mb-4 shadow-xl">
                         KP
                     </div>
-                    <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">
-                        <i class="fa-solid fa-crown text-amber-400"></i> Ketua Pengarah
+                    <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-3.5 py-1 rounded-full font-bold inline-block mb-2">
+                        <i class="fa-solid fa-crown text-amber-400 mr-1"></i> Ketua Pengarah
                     </span>
-                    <h3 class="text-xl font-bold text-neutral-100">Dr Muhammad Fairuz Azmi</h3>
+                    <h3 class="text-xl font-extrabold text-neutral-100">Dr Muhammad Fairuz Azmi</h3>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Timbalan Pengarah I</span>
                         <h4 class="text-base font-bold text-neutral-100">Syahir Sabri</h4>
                     </div>
-                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Timbalan Pengarah II</span>
                         <h4 class="text-base font-bold text-neutral-100">Fazli Halim</h4>
                     </div>
-                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Setiausaha</span>
                         <h4 class="text-base font-bold text-neutral-100">Khairul Hafidz</h4>
                         <p class="text-xs text-neutral-400 mt-1">Penolong: Nurzulaikha Mohd Nasir</p>
                     </div>
-                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Bendahari</span>
                         <h4 class="text-base font-bold text-neutral-100">Iqbal Mohtar</h4>
                     </div>
-                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Pegawai Operasi</span>
                         <h4 class="text-base font-bold text-neutral-100">Nadhirah Osman</h4>
                     </div>
-                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                    <div class="glass-card rounded-2xl p-5 text-center shadow-lg">
                         <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Unit Keahlian & Data</span>
                         <h4 class="text-base font-bold text-neutral-100">Aminul Yusof</h4>
                     </div>
@@ -210,109 +277,74 @@
             </div>
 
             <!-- 2. Ketua Unit JPro -->
-            <div class="mb-12">
-                <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
+            <div class="mb-14">
+                <h2 class="text-center text-lg md:text-xl font-extrabold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
                     <i class="fa-solid fa-layer-group"></i> Unit-Unit Operasi & Pembangunan
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Kajian & Perkhidmatan</span>
+                    <div class="glass-card p-5 rounded-2xl">
+                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Kajian & Perkhidmatan</span>
                         <h4 class="text-base font-bold text-neutral-100 mt-1">Ketua: Syahir Sabri</h4>
                         <p class="text-xs text-neutral-400 mt-1">Timbalan: Hani Ihsanuddin & Amir Ridwan</p>
                     </div>
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Pembangunan Profesional</span>
+                    <div class="glass-card p-5 rounded-2xl">
+                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Pembangunan Profesional</span>
                         <h4 class="text-base font-bold text-neutral-100 mt-1">Luthfi Daulah</h4>
                     </div>
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Jaringan & Hubungan Luar</span>
+                    <div class="glass-card p-5 rounded-2xl">
+                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Jaringan & Hubungan Luar</span>
                         <h4 class="text-base font-bold text-neutral-100 mt-1">Tengku Hadi</h4>
                     </div>
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Korporat & Media</span>
+                    <div class="glass-card p-5 rounded-2xl">
+                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Korporat & Media</span>
                         <h4 class="text-base font-bold text-neutral-100 mt-1">Ketua: Fazli Halim</h4>
                         <p class="text-xs text-neutral-400 mt-1">Timbalan: Shahrul Suhaimi</p>
                     </div>
-                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Tarbiah & Pengurusan Kluster</span>
+                    <div class="glass-card p-5 rounded-2xl">
+                        <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">Unit Tarbiah & Pengurusan Kluster</span>
                         <h4 class="text-base font-bold text-neutral-100 mt-1">Ts Fais Razali</h4>
                     </div>
                 </div>
             </div>
 
             <!-- 3. Ketua-Ketua Kluster Kepakaran -->
-            <div class="mb-12">
-                <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
+            <div class="mb-14">
+                <h2 class="text-center text-lg md:text-xl font-extrabold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
                     <i class="fa-solid fa-briefcase"></i> Ketua-Ketua Kluster Kepakaran
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-chart-line text-emerald-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">1. Ekonomi</p><h5 class="text-sm font-bold text-neutral-200">Asyraf Salleh</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">1. Ekonomi</p><h5 class="text-xs font-bold text-neutral-200">Asyraf Salleh</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-heart-pulse text-red-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">2. Kesihatan</p><h5 class="text-sm font-bold text-neutral-200">Dr Abdul Muntaqim Abu Bakar</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">2. Kesihatan</p><h5 class="text-xs font-bold text-neutral-200">Dr Abdul Muntaqim Abu Bakar</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-graduation-cap text-purple-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">3. Pendidikan</p><h5 class="text-sm font-bold text-neutral-200">Ariffudin Dzulkhefli</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">3. Pendidikan</p><h5 class="text-xs font-bold text-neutral-200">Ariffudin Dzulkhefli</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-scale-balanced text-amber-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">4. Undang-undang</p><h5 class="text-sm font-bold text-neutral-200">Saiful Izuan</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">4. Undang-undang</p><h5 class="text-xs font-bold text-neutral-200">Saiful Izuan</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-laptop-code text-cyan-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">5. Teknologi Maklumat</p><h5 class="text-sm font-bold text-neutral-200">Naqib Asri</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">5. Teknologi Maklumat</p><h5 class="text-xs font-bold text-neutral-200">Naqib Asri</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-gears text-orange-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">6. Kejuruteraan</p><h5 class="text-sm font-bold text-neutral-200">Anwar Farid</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">6. Kejuruteraan</p><h5 class="text-xs font-bold text-neutral-200">Anwar Farid</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-building-user text-neutral-500 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">7. Alam Bina</p><h5 class="text-sm font-bold text-neutral-500">Belum dilantik</h5></div>
-                    </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-mosque text-emerald-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">8. Pengajian Islam</p><h5 class="text-sm font-bold text-neutral-200">Ustaz Muhammad Mursyid Al-Amien Kayati</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">8. Pengajian Islam</p><h5 class="text-xs font-bold text-neutral-200">Ustaz Muhammad Mursyid Al-Amien Kayati</h5></div>
                     </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-atom text-blue-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">9. Sains dan Teknologi</p><h5 class="text-sm font-bold text-neutral-200">Fakhrurazi Yahya</h5></div>
-                    </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
-                        <i class="fa-solid fa-users-line text-neutral-500 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">10. Sains Sosial</p><h5 class="text-sm font-bold text-neutral-500">Belum dilantik</h5></div>
-                    </div>
-                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                    <div class="glass-card p-4 rounded-xl flex items-center gap-3">
                         <i class="fa-solid fa-bullhorn text-pink-400 text-lg"></i>
-                        <div><p class="text-xs text-neutral-400">11. Media dan Komunikasi</p><h5 class="text-sm font-bold text-neutral-200">Abdul Muhaimin bin Sakirin</h5></div>
+                        <div><p class="text-[11px] text-neutral-400">11. Media dan Komunikasi</p><h5 class="text-xs font-bold text-neutral-200">Abdul Muhaimin bin Sakirin</h5></div>
                     </div>
-                </div>
-            </div>
-
-            <!-- 4. Ketua-Ketua Pengarah Negeri -->
-            <div>
-                <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-map-location-dot"></i> Ketua-Ketua Pengarah Negeri
-                </h2>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Perlis</p><p class="text-xs font-semibold text-neutral-200">Ahmad Ashraf Mohd Khairudin</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Kedah</p><p class="text-xs font-semibold text-neutral-200">Dr Muhammad Aminuddin Khalid</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Pulau Pinang</p><p class="text-xs font-semibold text-neutral-200">Mustaqim Yahya</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Perak</p><p class="text-xs font-semibold text-neutral-200">Muhammad Adib Azhan bin Abdul Halim</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Selangor</p><p class="text-xs font-semibold text-neutral-200">Mohd Firdaus Ahmad Nor</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Wilayah Persekutuan</p><p class="text-xs font-semibold text-neutral-200">Syathir Lutfi</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Negeri Sembilan</p><p class="text-xs font-semibold text-neutral-200">Hamzah Nawawi</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Melaka</p><p class="text-xs font-semibold text-neutral-200">Muhammad Nor Abdurrahim</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Johor</p><p class="text-xs font-semibold text-neutral-200">Dr Mohd Khairul Anuar Jaffar</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Kelantan</p><p class="text-xs font-semibold text-neutral-200">Dr Muhammad Asyraf Othman</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Terengganu</p><p class="text-xs font-semibold text-neutral-200">Muhammad Hilmi bin Mohd Hamdan</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Pahang</p><p class="text-xs font-semibold text-neutral-200">Aliuddeen Syauqin bin Alimi</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Sarawak</p><p class="text-xs font-semibold text-neutral-500">Belum dilantik</p></div>
-                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Sabah</p><p class="text-xs font-semibold text-neutral-200">Mohammad Nazifuddin Bin Sidin</p></div>
                 </div>
             </div>
 
@@ -324,18 +356,14 @@
     <script>
         const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
         const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
-        
-        // PAUTAN WEB APP GOOGLE APPS SCRIPT (SUDAH DISATUKAN)
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
 
-        // Nyahkod JWT Token dari Google OAuth
         function parseJwt(token) {
             const base64Url = token.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             return JSON.parse(window.atob(base64));
         }
 
-        // Semak Emel dengan Data Google Sheets
         async function handleCredentialResponse(response) {
             const responsePayload = parseJwt(response.credential);
             const userEmail = responsePayload.email.toLowerCase();
@@ -364,11 +392,16 @@
         function updateUserDisplay(email) {
             const welcomeUser = document.getElementById("welcomeUser");
             if (welcomeUser && email) {
-                welcomeUser.innerText = `Log masuk: ${email}`;
+                welcomeUser.innerText = email;
             }
         }
 
-        // Semak Sesi Log Masuk
+        function logoutUser() {
+            sessionStorage.removeItem("jpro_google_auth");
+            sessionStorage.removeItem("jpro_user_email");
+            location.reload();
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             if (sessionStorage.getItem("jpro_google_auth") === "true") {
                 document.getElementById("oauthOverlay").classList.add("hidden");
@@ -377,7 +410,6 @@
             }
         });
 
-        // FUNGSI MODAL KEMASKINI PROFIL DIRECT
         function openEditModal() {
             document.getElementById('editProfileModal').classList.remove('hidden');
         }
@@ -416,7 +448,7 @@
 
                 alert("Profil anda telah berjaya dikemas kini!");
                 closeEditModal();
-                setTimeout(fetchMembersData, 1000); // Muat semula direktori
+                setTimeout(fetchMembersData, 1200);
             } catch (error) {
                 alert("Gagal mengemas kini profil. Sila cuba lagi.");
             } finally {
@@ -431,8 +463,8 @@
             const tabDirBtn = document.getElementById('tabDirectoryBtn');
             const tabOrgBtn = document.getElementById('tabOrgBtn');
 
-            const activeBtnClass = "gold-gradient-bg text-neutral-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 text-sm";
-            const inactiveBtnClass = "bg-neutral-950 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 text-sm";
+            const activeBtnClass = "gold-gradient-bg text-neutral-950 font-extrabold px-6 py-3 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
+            const inactiveBtnClass = "bg-neutral-900 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-bold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
 
             if (tabName === 'directory') {
                 tabDirBtn.className = activeBtnClass;
@@ -481,9 +513,6 @@
             else if (text.includes('islam') || text.includes('agama')) {
                 return { icon: "fa-mosque", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
             }
-            else if (text.includes('sains') || text.includes('teknologi')) {
-                return { icon: "fa-atom", color: "text-blue-400", bg: "bg-blue-400/10 border-blue-400/30" };
-            }
             else if (text.includes('media') || text.includes('komunikasi')) {
                 return { icon: "fa-bullhorn", color: "text-pink-400", bg: "bg-pink-400/10 border-pink-400/30" };
             }
@@ -492,8 +521,8 @@
         }
 
         const fallbackMembers = [
-            { nama: "Shahrul Suhaimi", jawatan: "Timbalan Ketua Unit Korporat & Media", kluster: "Media dan Komunikasi", kemahiran: "Corporate Strategy, Media Relations", linkedin: "https://linkedin.com" },
-            { nama: "Naqib Asri", jawatan: "Ketua Kluster Teknologi Maklumat", kluster: "Teknologi Maklumat", kemahiran: "IT Infrastructure, Cybersecurity", linkedin: "https://linkedin.com" }
+            { nama: "Shahrul Suhaimi", jawatan: "Timbalan Ketua Unit Korporat & Media", kluster: "Media dan Komunikasi", kemahiran: "Corporate Strategy, Media Relations, AI", linkedin: "https://linkedin.com" },
+            { nama: "Khairul Anuar", jawatan: "Pegawai Analisis Dasar", kluster: "Pentadbiran & Polisi", kemahiran: "Public Policy, Leadership, Governance", linkedin: "https://linkedin.com" }
         ];
 
         document.addEventListener("DOMContentLoaded", fetchMembersData);
@@ -506,8 +535,12 @@
                 const response = await fetch(SHEET_URL);
                 if (!response.ok) throw new Error();
                 const data = await response.json();
-                renderCards(data.length > 0 ? data : fallbackMembers);
+                
+                const validMembers = data.length > 0 ? data : fallbackMembers;
+                document.getElementById('statTotalMembers').innerText = `${validMembers.length} Ahli`;
+                renderCards(validMembers);
             } catch (error) {
+                document.getElementById('statTotalMembers').innerText = `${fallbackMembers.length} Ahli`;
                 renderCards(fallbackMembers);
             } finally {
                 loading.classList.add('hidden');
@@ -544,19 +577,19 @@
                 if(kemahiran) {
                     kemahiran.split(',').forEach(s => {
                         const clean = s.trim().replace(/^#/, '');
-                        if (clean) skillsHTML += `<span class="bg-neutral-950 border border-amber-500/20 text-amber-200/80 text-xs px-2.5 py-1 rounded-md inline-flex items-center gap-1"><i class="fa-solid fa-hashtag text-amber-500/50 text-[10px]"></i>${clean}</span> `;
+                        if (clean) skillsHTML += `<span class="bg-neutral-950/80 border border-amber-500/20 text-amber-200/90 text-[11px] px-2.5 py-1 rounded-lg inline-flex items-center gap-1 font-medium"><i class="fa-solid fa-hashtag text-amber-500/50 text-[9px]"></i>${clean}</span> `;
                     });
                 }
 
                 grid.innerHTML += `
-                    <div class="member-card bg-neutral-900 rounded-2xl p-6 border border-neutral-800 hover:border-amber-500/50 shadow-lg transition duration-300 flex flex-col justify-between"
+                    <div class="member-card glass-card rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
                          data-name="${nama}" data-cluster="${kluster}" data-skills="${kemahiran}">
                         <div>
                             <div class="flex justify-between items-start mb-5">
-                                <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-xl flex items-center justify-center font-extrabold text-xl shadow-md">
+                                <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
                                     ${initials}
                                 </div>
-                                <span class="${clusterConfig.bg} border ${clusterConfig.color} text-xs font-semibold px-3 py-1.5 rounded-xl flex items-center gap-2">
+                                <span class="${clusterConfig.bg} border ${clusterConfig.color} text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
                                     <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
                                 </span>
                             </div>
@@ -564,15 +597,15 @@
                                 ${nama}
                                 <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
                             </h2>
-                            <p class="text-sm font-medium text-amber-400/90 mb-4 flex items-center gap-2">
-                                <i class="fa-solid fa-user-gear text-neutral-400 text-xs"></i> ${jawatan}
+                            <p class="text-xs font-semibold text-amber-400/90 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-briefcase text-neutral-500 text-xs"></i> ${jawatan}
                             </p>
                             <div class="flex flex-wrap gap-1.5 mb-6">
                                 ${skillsHTML}
                             </div>
                         </div>
-                        <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:bg-amber-500 hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-center text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-linkedin text-lg"></i> Connect di LinkedIn
+                        <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
                         </a>
                     </div>
                 `;
