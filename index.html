@@ -3,166 +3,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JPro Member Directory & Network Hub</title>
+    <title>JPro Directory & Executive Network</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { font-family: 'Inter', sans-serif; }
+        .gold-gradient-bg {
+            background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 25%, #B38728 50%, #FBF5B7 75%, #AA771C 100%);
+        }
+        .gold-text {
+            background: linear-gradient(135deg, #BF953F 0%, #FCF6BA 30%, #B38728 70%, #AA771C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen">
+<body class="bg-neutral-950 text-neutral-100 min-h-screen">
 
     <!-- Header Section -->
-    <header class="bg-indigo-900 text-white py-10 px-4 shadow-md">
-        <div class="max-w-6xl mx-auto text-center">
-            <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-2">Direktori Ahli JPro</h1>
-            <p class="text-indigo-200 text-base md:text-lg max-w-2xl mx-auto">
-                Perkasakan jaringan profesional, bina kolaborasi, dan hubungkan profil LinkedIn sesama ahli JPro.
+    <header class="bg-neutral-900 border-b border-amber-600/30 py-10 px-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(#BF953F_1px,transparent_1px)] [background-size:16px_16px] opacity-10"></div>
+        <div class="max-w-6xl mx-auto text-center relative z-10">
+            <span class="inline-block px-3 py-1 bg-amber-500/10 border border-amber-500/30 rounded-full text-amber-400 text-xs font-semibold tracking-widest uppercase mb-3">
+                Jabatan Profesional Muda 2025/2027
+            </span>
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
+                Ekosistem <span class="gold-text">Kepimpinan & Ahli JPro</span>
+            </h1>
+            <p class="text-neutral-400 text-sm md:text-base max-w-2xl mx-auto mb-6 font-light">
+                Platform rasmi perangkaian LinkedIn, pangkalan direktori ahli, dan struktur carta organisasi JPro.
             </p>
-            <!-- Call to Action (Borang Tambah Profil) -->
-            <div class="mt-6">
-                <a href="#" class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-2.5 rounded-full shadow-lg transition duration-200 inline-flex items-center gap-2">
-                    <i class="fa-solid fa-user-plus"></i> Kemas Kini Profil & Bingo Anda
-                </a>
+            
+            <!-- Navigation Tabs -->
+            <div class="flex justify-center gap-3 mt-6">
+                <button onclick="switchTab('directory')" id="tabDirectoryBtn" class="gold-gradient-bg text-neutral-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-users"></i> Direktori Ahli
+                </button>
+                <button onclick="switchTab('orgchart')" id="tabOrgBtn" class="bg-neutral-950 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-sitemap"></i> Carta Organisasi JPro
+                </button>
             </div>
         </div>
     </header>
 
     <!-- Main Container -->
-    <main class="max-w-6xl mx-auto px-4 py-8">
+    <main class="max-w-6xl mx-auto px-4 py-10 relative min-h-[500px]">
 
-        <!-- Controls: Search & Filter -->
-        <div class="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-200 mb-8 flex flex-col md:flex-row gap-4 justify-between items-center">
-            <!-- Search Bar -->
-            <div class="relative w-full md:w-1/2">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
-                <input type="text" id="searchInput" onkeyup="filterDirectory()" placeholder="Cari nama, jawatan, atau kemahiran..." 
-                    class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:bg-white text-sm">
+        <!-- SECTION 1: DIREKTORI AHLI -->
+        <div id="directorySection" class="transition-all duration-300 ease-in-out opacity-100">
+            <div class="bg-neutral-900/80 backdrop-blur p-5 rounded-2xl border border-amber-600/20 shadow-xl mb-10 flex flex-col md:flex-row gap-4 justify-between items-center">
+                <div class="relative w-full md:w-1/2">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-amber-500/60"></i>
+                    <input type="text" id="searchInput" onkeyup="filterDirectory()" placeholder="Cari nama, jawatan, atau kemahiran..." 
+                        class="w-full pl-11 pr-4 py-2.5 bg-neutral-950 border border-neutral-800 rounded-xl focus:outline-none focus:border-amber-500 text-neutral-200 text-sm placeholder-neutral-500">
+                </div>
+
+                <div class="w-full md:w-auto flex items-center gap-3">
+                    <label for="clusterFilter" class="text-sm font-medium text-amber-400/80 whitespace-nowrap">Kluster:</label>
+                    <select id="clusterFilter" onchange="filterDirectory()" class="w-full md:w-auto bg-neutral-950 border border-neutral-800 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 text-neutral-200">
+                        <option value="ALL">Semua Kluster</option>
+                        <option value="Teknologi Maklumat">💻 Teknologi Maklumat</option>
+                        <option value="Kejuruteraan">🛠️ Kejuruteraan</option>
+                        <option value="Ekonomi">💼 Ekonomi</option>
+                        <option value="Kesihatan">🩺 Kesihatan</option>
+                        <option value="Pendidikan">🎓 Pendidikan</option>
+                        <option value="Undang-undang">⚖️ Undang-undang</option>
+                        <option value="Pengajian Islam">🕌 Pengajian Islam</option>
+                        <option value="Sains dan Teknologi">🔬 Sains & Teknologi</option>
+                        <option value="Media dan Komunikasi">📢 Media & Komunikasi</option>
+                    </select>
+                </div>
             </div>
 
-            <!-- Sector Filter -->
-            <div class="w-full md:w-auto flex items-center gap-2">
-                <label for="sectorFilter" class="text-sm font-medium text-slate-600 whitespace-nowrap">Sektor:</label>
-                <select id="sectorFilter" onchange="filterDirectory()" class="w-full md:w-auto bg-slate-50 border border-slate-300 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    <option value="ALL">Semua Sektor</option>
-                    <option value="Sektor Awam">Sektor Awam</option>
-                    <option value="Sektor Swasta">Sektor Swasta</option>
-                    <option value="Pendidikan / Akademik">Pendidikan / Akademik</option>
-                </select>
+            <div id="loading" class="text-center py-16">
+                <i class="fa-solid fa-circle-notch fa-spin text-amber-500 text-4xl mb-4"></i>
+                <p class="text-neutral-400 font-light">Memuatkan direktori kluster JPro dari Google Sheets...</p>
             </div>
+
+            <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
         </div>
 
-        <!-- Member Directory Cards Grid -->
-        <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- SECTION 2: CARTA ORGANISASI (ORG CHART 2025/2027) -->
+        <div id="orgChartSection" class="transition-all duration-300 ease-in-out opacity-0 hidden">
             
-            <!-- Card 1 -->
-            <div class="member-card bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between"
-                 data-name="Ahmad Zulkarnain" data-sector="Sektor Awam" data-skills="Public Policy, Digital Gov, Strategic Plan">
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-14 h-14 bg-indigo-100 text-indigo-700 rounded-full flex items-center justify-center font-bold text-xl">
-                            AZ
-                        </div>
-                        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <i class="fa-solid fa-trophy text-emerald-600"></i> Bingo Completed
-                        </span>
+            <!-- 1. Pengurusan Tertinggi -->
+            <div class="mb-12">
+                <h2 class="text-center text-2xl font-bold text-amber-400 mb-8 uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-crown"></i> Pengurusan Tertinggi JPro 2025/2027
+                </h2>
+                
+                <!-- Ketua Pengarah -->
+                <div class="max-w-sm mx-auto bg-neutral-900 border-2 border-amber-500/80 rounded-2xl p-6 text-center shadow-2xl relative overflow-hidden mb-6">
+                    <div class="w-16 h-16 gold-gradient-bg text-neutral-950 rounded-full flex items-center justify-center font-bold text-xl mx-auto mb-3 shadow-md">
+                        KP
                     </div>
-                    <h2 class="text-lg font-bold text-slate-900">Ahmad Zulkarnain</h2>
-                    <p class="text-sm font-medium text-indigo-600 mb-1">Pegawai Tadbir & Diplomatik (PTD)</p>
-                    <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
-                        <i class="fa-solid fa-building"></i> Sektor Awam
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 mb-6">
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#PublicPolicy</span>
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#DigitalGov</span>
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#StrategicPlan</span>
+                    <span class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">
+                        <i class="fa-solid fa-crown text-amber-400"></i> Ketua Pengarah
+                    </span>
+                    <h3 class="text-xl font-bold text-neutral-100">Dr Muhammad Fairuz Azmi</h3>
+                </div>
+
+                <!-- Timbalan Pengarah & Pentadbiran Utama -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Timbalan Pengarah I</span>
+                        <h4 class="text-base font-bold text-neutral-100">Syahir Sabri</h4>
+                    </div>
+                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Timbalan Pengarah II</span>
+                        <h4 class="text-base font-bold text-neutral-100">Fazli Halim</h4>
+                    </div>
+                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Setiausaha</span>
+                        <h4 class="text-base font-bold text-neutral-100">Khairul Hafidz</h4>
+                        <p class="text-xs text-neutral-400 mt-1">Penolong: Nurzulaikha Mohd Nasir</p>
+                    </div>
+                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Bendahari</span>
+                        <h4 class="text-base font-bold text-neutral-100">Iqbal Mohtar</h4>
+                    </div>
+                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Pegawai Operasi</span>
+                        <h4 class="text-base font-bold text-neutral-100">Nadhirah Osman</h4>
+                    </div>
+                    <div class="bg-neutral-900 border border-amber-500/40 rounded-2xl p-5 text-center shadow-xl">
+                        <span class="bg-amber-500/10 text-amber-400 text-xs px-3 py-1 rounded-full font-semibold inline-block mb-2">Unit Keahlian & Data</span>
+                        <h4 class="text-base font-bold text-neutral-100">Aminul Yusof</h4>
                     </div>
                 </div>
-                <a href="https://linkedin.com" target="_blank" class="w-full bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-semibold py-2 rounded-xl text-center text-sm transition duration-150 flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
-                </a>
             </div>
 
-            <!-- Card 2 -->
-            <div class="member-card bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between"
-                 data-name="Siti Nurhaliza Abdullah" data-sector="Sektor Swasta" data-skills="Project Management, Talent Dev, HR Analytics">
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-14 h-14 bg-purple-100 text-purple-700 rounded-full flex items-center justify-center font-bold text-xl">
-                            SA
-                        </div>
-                        <span class="bg-amber-100 text-amber-800 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <i class="fa-solid fa-hourglass-half text-amber-600"></i> In Progress
-                        </span>
+            <!-- 2. Ketua-Ketua Unit JPro -->
+            <div class="mb-12">
+                <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-layer-group"></i> Unit-Unit Operasi & Pembangunan
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Kajian & Perkhidmatan</span>
+                        <h4 class="text-base font-bold text-neutral-100 mt-1">Ketua: Syahir Sabri</h4>
+                        <p class="text-xs text-neutral-400 mt-1">Timbalan: Hani Ihsanuddin & Amir Ridwan</p>
                     </div>
-                    <h2 class="text-lg font-bold text-slate-900">Siti Nurhaliza Abdullah</h2>
-                    <p class="text-sm font-medium text-indigo-600 mb-1">HR & Talent Development Lead</p>
-                    <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
-                        <i class="fa-solid fa-building"></i> Sektor Swasta
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 mb-6">
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#ProjectManagement</span>
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#TalentDev</span>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Pembangunan Profesional</span>
+                        <h4 class="text-base font-bold text-neutral-100 mt-1">Luthfi Daulah</h4>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Jaringan & Hubungan Luar</span>
+                        <h4 class="text-base font-bold text-neutral-100 mt-1">Tengku Hadi</h4>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Korporat & Media</span>
+                        <h4 class="text-base font-bold text-neutral-100 mt-1">Ketua: Fazli Halim</h4>
+                        <p class="text-xs text-neutral-400 mt-1">Timbalan: Shahrul Suhaimi</p>
+                    </div>
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
+                        <span class="text-xs text-amber-400 font-semibold uppercase">Unit Tarbiah & Pengurusan Kluster</span>
+                        <h4 class="text-base font-bold text-neutral-100 mt-1">Ts Fais Razali</h4>
                     </div>
                 </div>
-                <a href="https://linkedin.com" target="_blank" class="w-full bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-semibold py-2 rounded-xl text-center text-sm transition duration-150 flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
-                </a>
             </div>
 
-            <!-- Card 3 -->
-            <div class="member-card bg-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition duration-200 flex flex-col justify-between"
-                 data-name="Dr. Farhan Ismail" data-sector="Pendidikan / Akademik" data-skills="Research, Data Science, AI Governance">
-                <div>
-                    <div class="flex justify-between items-start mb-4">
-                        <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center font-bold text-xl">
-                            FI
-                        </div>
-                        <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-2.5 py-1 rounded-full flex items-center gap-1">
-                            <i class="fa-solid fa-trophy text-emerald-600"></i> Bingo Completed
-                        </span>
+            <!-- 3. Ketua-Ketua Kluster Kepakaran -->
+            <div class="mb-12">
+                <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-briefcase"></i> Ketua-Ketua Kluster Kepakaran
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-chart-line text-emerald-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">1. Ekonomi</p><h5 class="text-sm font-bold text-neutral-200">Asyraf Salleh</h5></div>
                     </div>
-                    <h2 class="text-lg font-bold text-slate-900">Dr. Farhan Ismail</h2>
-                    <p class="text-sm font-medium text-indigo-600 mb-1">Pensyarah & Peneliti Data</p>
-                    <p class="text-xs text-slate-500 mb-4 flex items-center gap-1">
-                        <i class="fa-solid fa-graduation-cap"></i> Pendidikan / Akademik
-                    </p>
-                    <div class="flex flex-wrap gap-1.5 mb-6">
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#Research</span>
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#DataScience</span>
-                        <span class="bg-slate-100 text-slate-600 text-xs px-2.5 py-1 rounded-md">#AIGovernance</span>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-heart-pulse text-red-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">2. Kesihatan</p><h5 class="text-sm font-bold text-neutral-200">Dr Abdul Muntaqim Abu Bakar</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-graduation-cap text-purple-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">3. Pendidikan</p><h5 class="text-sm font-bold text-neutral-200">Ariffudin Dzulkhefli</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-scale-balanced text-amber-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">4. Undang-undang</p><h5 class="text-sm font-bold text-neutral-200">Saiful Izuan</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-laptop-code text-cyan-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">5. Teknologi Maklumat</p><h5 class="text-sm font-bold text-neutral-200">Naqib Asri</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-gears text-orange-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">6. Kejuruteraan</p><h5 class="text-sm font-bold text-neutral-200">Anwar Farid</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-building-user text-neutral-500 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">7. Alam Bina</p><h5 class="text-sm font-bold text-neutral-500">Belum dilantik</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-mosque text-emerald-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">8. Pengajian Islam</p><h5 class="text-sm font-bold text-neutral-200">Ustaz Muhammad Mursyid Al-Amien Kayati</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-atom text-blue-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">9. Sains dan Teknologi</p><h5 class="text-sm font-bold text-neutral-200">Fakhrurazi Yahya</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-users-line text-neutral-500 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">10. Sains Sosial</p><h5 class="text-sm font-bold text-neutral-500">Belum dilantik</h5></div>
+                    </div>
+                    <div class="bg-neutral-900/60 border border-neutral-800 p-4 rounded-xl flex items-center gap-3">
+                        <i class="fa-solid fa-bullhorn text-pink-400 text-lg"></i>
+                        <div><p class="text-xs text-neutral-400">11. Media dan Komunikasi</p><h5 class="text-sm font-bold text-neutral-200">Abdul Muhaimin bin Sakirin</h5></div>
                     </div>
                 </div>
-                <a href="https://linkedin.com" target="_blank" class="w-full bg-indigo-50 hover:bg-indigo-600 hover:text-white text-indigo-600 font-semibold py-2 rounded-xl text-center text-sm transition duration-150 flex items-center justify-center gap-2">
-                    <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
-                </a>
+            </div>
+
+            <!-- 4. Ketua-Ketua Pengarah Negeri -->
+            <div>
+                <h2 class="text-center text-xl font-bold text-amber-400/80 mb-6 uppercase tracking-wider flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-map-location-dot"></i> Ketua-Ketua Pengarah Negeri
+                </h2>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Perlis</p><p class="text-xs font-semibold text-neutral-200">Ahmad Ashraf Mohd Khairudin</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Kedah</p><p class="text-xs font-semibold text-neutral-200">Dr Muhammad Aminuddin Khalid</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Pulau Pinang</p><p class="text-xs font-semibold text-neutral-200">Mustaqim Yahya</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Perak</p><p class="text-xs font-semibold text-neutral-200">Muhammad Adib Azhan bin Abdul Halim</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Selangor</p><p class="text-xs font-semibold text-neutral-200">Mohd Firdaus Ahmad Nor</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Wilayah Persekutuan</p><p class="text-xs font-semibold text-neutral-200">Syathir Lutfi</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Negeri Sembilan</p><p class="text-xs font-semibold text-neutral-200">Hamzah Nawawi</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Melaka</p><p class="text-xs font-semibold text-neutral-200">Muhammad Nor Abdurrahim</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Johor</p><p class="text-xs font-semibold text-neutral-200">Dr Mohd Khairul Anuar Jaffar</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Kelantan</p><p class="text-xs font-semibold text-neutral-200">Dr Muhammad Asyraf Othman</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Terengganu</p><p class="text-xs font-semibold text-neutral-200">Muhammad Hilmi bin Mohd Hamdan</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Pahang</p><p class="text-xs font-semibold text-neutral-200">Aliuddeen Syauqin bin Alimi</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Sarawak</p><p class="text-xs font-semibold text-neutral-500">Belum dilantik</p></div>
+                    <div class="bg-neutral-900 border border-neutral-800 p-3 rounded-xl"><p class="text-[10px] text-amber-400 font-bold uppercase">Sabah</p><p class="text-xs font-semibold text-neutral-200">Mohammad Nazifuddin Bin Sidin</p></div>
+                </div>
             </div>
 
         </div>
+
     </main>
 
-    <!-- JavaScript Filter Functionality -->
+    <!-- JavaScript Sync Engine -->
     <script>
+        // SPREADSHEET ID SAYA DAH PASANGKAN DI SINI:
+        const SPREADSHEET_ID = '1wLuVlMl1gH1iVWdPPEFcXGYPcXteO01Opic_3VN1Bu4'; 
+        const SHEET_URL = `https://opensheet.elk.sh/${SPREADSHEET_ID}/1`;
+
+        function switchTab(tabName) {
+            const dirSec = document.getElementById('directorySection');
+            const orgSec = document.getElementById('orgChartSection');
+            const tabDirBtn = document.getElementById('tabDirectoryBtn');
+            const tabOrgBtn = document.getElementById('tabOrgBtn');
+
+            const activeBtnClass = "gold-gradient-bg text-neutral-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 text-sm";
+            const inactiveBtnClass = "bg-neutral-950 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-semibold px-6 py-2.5 rounded-xl transition-all duration-300 flex items-center gap-2 text-sm";
+
+            if (tabName === 'directory') {
+                tabDirBtn.className = activeBtnClass;
+                tabOrgBtn.className = inactiveBtnClass;
+
+                orgSec.classList.remove('opacity-100');
+                orgSec.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    orgSec.classList.add('hidden');
+                    dirSec.classList.remove('hidden');
+                    setTimeout(() => {
+                        dirSec.classList.remove('opacity-0');
+                        dirSec.classList.add('opacity-100');
+                    }, 50);
+                }, 300);
+
+            } else {
+                tabOrgBtn.className = activeBtnClass;
+                tabDirBtn.className = inactiveBtnClass;
+
+                dirSec.classList.remove('opacity-100');
+                dirSec.classList.add('opacity-0');
+
+                setTimeout(() => {
+                    dirSec.classList.add('hidden');
+                    orgSec.classList.remove('hidden');
+                    setTimeout(() => {
+                        orgSec.classList.remove('opacity-0');
+                        orgSec.classList.add('opacity-100');
+                    }, 50);
+                }, 300);
+            }
+        }
+
+        function getClusterConfig(klusterText) {
+            const text = (klusterText || '').toString().toLowerCase();
+            
+            if (text.includes('teknologi') || text.includes('digital') || text.includes('it')) {
+                return { icon: "fa-laptop-code", color: "text-cyan-400", bg: "bg-cyan-400/10 border-cyan-400/30" };
+            } 
+            else if (text.includes('kejuruteraan') || text.includes('teknikal')) {
+                return { icon: "fa-gears", color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/30" };
+            } 
+            else if (text.includes('ekonomi') || text.includes('bisnes') || text.includes('kewangan')) {
+                return { icon: "fa-chart-line", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
+            } 
+            else if (text.includes('kesihatan') || text.includes('perubatan')) {
+                return { icon: "fa-heart-pulse", color: "text-red-400", bg: "bg-red-400/10 border-red-400/30" };
+            }
+            else if (text.includes('pendidikan') || text.includes('akademik')) {
+                return { icon: "fa-graduation-cap", color: "text-purple-400", bg: "bg-purple-400/10 border-purple-400/30" };
+            }
+            else if (text.includes('undang')) {
+                return { icon: "fa-scale-balanced", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
+            }
+            else if (text.includes('islam') || text.includes('agama')) {
+                return { icon: "fa-mosque", color: "text-emerald-400", bg: "bg-emerald-400/10 border-emerald-400/30" };
+            }
+            else if (text.includes('sains') || text.includes('teknologi')) {
+                return { icon: "fa-atom", color: "text-blue-400", bg: "bg-blue-400/10 border-blue-400/30" };
+            }
+            else if (text.includes('media') || text.includes('komunikasi')) {
+                return { icon: "fa-bullhorn", color: "text-pink-400", bg: "bg-pink-400/10 border-pink-400/30" };
+            }
+            
+            return { icon: "fa-user-tie", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
+        }
+
+        const fallbackMembers = [
+            { nama: "Shahrul Suhaimi", jawatan: "Timbalan Ketua Unit Korporat & Media", kluster: "Media dan Komunikasi", kemahiran: "Corporate Strategy, Media Relations", linkedin: "https://linkedin.com" },
+            { nama: "Naqib Asri", jawatan: "Ketua Kluster Teknologi Maklumat", kluster: "Teknologi Maklumat", kemahiran: "IT Infrastructure, Cybersecurity", linkedin: "https://linkedin.com" },
+            { nama: "Dr Abdul Muntaqim Abu Bakar", jawatan: "Ketua Kluster Kesihatan", kluster: "Kesihatan", kemahiran: "Public Health, Medical Research", linkedin: "https://linkedin.com" }
+        ];
+
+        document.addEventListener("DOMContentLoaded", fetchMembersData);
+
+        async function fetchMembersData() {
+            const loading = document.getElementById('loading');
+            const grid = document.getElementById('directoryGrid');
+
+            try {
+                const response = await fetch(SHEET_URL);
+                if (!response.ok) throw new Error();
+                const data = await response.json();
+                renderCards(data.length > 0 ? data : fallbackMembers);
+            } catch (error) {
+                renderCards(fallbackMembers);
+            } finally {
+                loading.classList.add('hidden');
+                grid.classList.remove('hidden');
+            }
+        }
+
+        function renderCards(members) {
+            const grid = document.getElementById('directoryGrid');
+            grid.innerHTML = '';
+
+            members.forEach(m => {
+                let nama = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
+
+                Object.keys(m).forEach(key => {
+                    const k = key.toLowerCase();
+                    if (k.includes('nama')) nama = m[key];
+                    else if (k.includes('jawatan') || k.includes('organisasi')) jawatan = m[key];
+                    else if (k.includes('kluster') || k.includes('sektor')) kluster = m[key];
+                    else if (k.includes('kemahiran') || k.includes('hashtag')) kemahiran = m[key];
+                    else if (k.includes('linkedin') || k.includes('pautan')) linkedin = m[key];
+                });
+
+                nama = nama || m.nama || 'Ahli JPro';
+                jawatan = jawatan || m.jawatan || 'Ahli Profesional';
+                kluster = kluster || m.kluster || 'Teknologi Maklumat';
+                kemahiran = kemahiran || m.kemahiran || '';
+                linkedin = linkedin || m.linkedin || '#';
+
+                const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
+                const clusterConfig = getClusterConfig(kluster);
+
+                let skillsHTML = '';
+                if(kemahiran) {
+                    kemahiran.split(',').forEach(s => {
+                        const clean = s.trim().replace(/^#/, '');
+                        if (clean) skillsHTML += `<span class="bg-neutral-950 border border-amber-500/20 text-amber-200/80 text-xs px-2.5 py-1 rounded-md inline-flex items-center gap-1"><i class="fa-solid fa-hashtag text-amber-500/50 text-[10px]"></i>${clean}</span> `;
+                    });
+                }
+
+                grid.innerHTML += `
+                    <div class="member-card bg-neutral-900 rounded-2xl p-6 border border-neutral-800 hover:border-amber-500/50 shadow-lg transition duration-300 flex flex-col justify-between"
+                         data-name="${nama}" data-cluster="${kluster}" data-skills="${kemahiran}">
+                        <div>
+                            <div class="flex justify-between items-start mb-5">
+                                <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-xl flex items-center justify-center font-extrabold text-xl shadow-md">
+                                    ${initials}
+                                </div>
+                                <span class="${clusterConfig.bg} border ${clusterConfig.color} text-xs font-semibold px-3 py-1.5 rounded-xl flex items-center gap-2">
+                                    <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
+                                </span>
+                            </div>
+                            <h2 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
+                                ${nama}
+                                <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
+                            </h2>
+                            <p class="text-sm font-medium text-amber-400/90 mb-4 flex items-center gap-2">
+                                <i class="fa-solid fa-user-gear text-neutral-400 text-xs"></i> ${jawatan}
+                            </p>
+                            <div class="flex flex-wrap gap-1.5 mb-6">
+                                ${skillsHTML}
+                            </div>
+                        </div>
+                        <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:bg-amber-500 hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-semibold py-2.5 rounded-xl text-center text-sm transition flex items-center justify-center gap-2">
+                            <i class="fa-brands fa-linkedin text-lg"></i> Connect di LinkedIn
+                        </a>
+                    </div>
+                `;
+            });
+        }
+
         function filterDirectory() {
             const searchInput = document.getElementById('searchInput').value.toLowerCase();
-            const sectorFilter = document.getElementById('sectorFilter').value;
+            const clusterFilter = document.getElementById('clusterFilter').value;
             const cards = document.querySelectorAll('.member-card');
 
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
-                const sector = card.getAttribute('data-sector');
+                const cluster = card.getAttribute('data-cluster').toLowerCase();
                 const skills = card.getAttribute('data-skills').toLowerCase();
 
                 const matchesSearch = name.includes(searchInput) || skills.includes(searchInput);
-                const matchesSector = (sectorFilter === 'ALL') || (sector === sectorFilter);
+                const matchesCluster = (clusterFilter === 'ALL') || cluster.includes(clusterFilter.toLowerCase());
 
-                if (matchesSearch && matchesSector) {
-                    card.style.display = "flex";
-                } else {
-                    card.style.display = "none";
-                }
+                card.style.display = (matchesSearch && matchesCluster) ? "flex" : "none";
             });
         }
     </script>
