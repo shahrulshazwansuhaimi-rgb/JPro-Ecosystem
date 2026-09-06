@@ -58,12 +58,21 @@
             <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight mb-3">
                 Ekosistem <span class="gold-text">Kepimpinan & Ahli JPro</span>
             </h1>
-            <p class="text-neutral-400 text-sm md:text-base max-w-2xl mx-auto mb-6 font-light">
+            <p class="text-neutral-400 text-sm md:text-base max-w-2xl mx-auto mb-4 font-light">
                 Platform rasmi perangkaian LinkedIn, pangkalan direktori ahli, dan struktur carta organisasi JPro.
             </p>
             
+            <!-- BUTANG KEMASKINI PROFIL AHLI (SELF-SERVICE) -->
+            <div id="userProfileBar" class="mb-6 flex flex-col sm:flex-row justify-center items-center gap-3">
+                <span id="welcomeUser" class="text-xs text-neutral-400"></span>
+                <a href="PAUTAN_GOOGLE_FORM_JPRO_ANDA" target="_blank" 
+                   class="bg-neutral-950 hover:bg-neutral-800 border border-amber-500/40 hover:border-amber-500 text-amber-400 font-medium text-xs px-4 py-2 rounded-xl transition shadow-md flex items-center gap-2">
+                    <i class="fa-solid fa-pen-to-square text-amber-400"></i> Kemaskini LinkedIn / Profil Saya
+                </a>
+            </div>
+
             <!-- Navigation Tabs -->
-            <div class="flex justify-center gap-3 mt-6">
+            <div class="flex justify-center gap-3 mt-4">
                 <button onclick="switchTab('directory')" id="tabDirectoryBtn" class="gold-gradient-bg text-neutral-950 font-bold px-6 py-2.5 rounded-xl shadow-lg transition-all duration-300 flex items-center gap-2 text-sm">
                     <i class="fa-solid fa-users"></i> Direktori Ahli
                 </button>
@@ -291,14 +300,16 @@
                 const res = await fetch(SHEET_URL);
                 const members = await res.json();
                 
-                // Cari jika emel pengguna wujud dalam Google Sheet
+                // Cari jika emel pengguna wujud dalam mana-mana kolum Google Sheet
                 const isAuthorized = members.some(m => 
                     Object.values(m).some(val => val.toString().toLowerCase() === userEmail)
                 );
 
                 if (isAuthorized) {
                     sessionStorage.setItem("jpro_google_auth", "true");
+                    sessionStorage.setItem("jpro_user_email", userEmail);
                     document.getElementById("oauthOverlay").classList.add("hidden");
+                    updateUserDisplay(userEmail);
                 } else {
                     document.getElementById("authError").classList.remove("hidden");
                 }
@@ -307,10 +318,19 @@
             }
         }
 
+        function updateUserDisplay(email) {
+            const welcomeUser = document.getElementById("welcomeUser");
+            if (welcomeUser && email) {
+                welcomeUser.innerText = `Log masuk: ${email}`;
+            }
+        }
+
         // Semak Sesi Log Masuk
         document.addEventListener("DOMContentLoaded", () => {
             if (sessionStorage.getItem("jpro_google_auth") === "true") {
                 document.getElementById("oauthOverlay").classList.add("hidden");
+                const savedEmail = sessionStorage.getItem("jpro_user_email");
+                if (savedEmail) updateUserDisplay(savedEmail);
             }
         });
 
