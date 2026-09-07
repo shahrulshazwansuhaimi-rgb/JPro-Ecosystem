@@ -398,6 +398,7 @@
 
         let sortedMembersData = [];
         let currentlyRenderedIndex = 0;
+        let myProfileRendered = false; // FLAG STRICT SINGLE BADGE
         const INITIAL_LIMIT = 6;
         const BATCH_SIZE = 18;
 
@@ -698,6 +699,7 @@
             const grid = document.getElementById('directoryGrid');
             grid.innerHTML = '';
             currentlyRenderedIndex = 0;
+            myProfileRendered = false; // RESET FLAG UPON RE-RENDER
             appendNextBatch(INITIAL_LIMIT);
         }
 
@@ -733,7 +735,13 @@
                 kemahiran = kemahiran || m.kemahiran || '';
                 linkedin = linkedin || m.linkedin || '#';
 
-                const isCurrentUser = Boolean(loggedInEmail && email && email === loggedInEmail);
+                // LOGIK KETAT: HANYA HANTAR SATU BADGE SAHAJA
+                let isCurrentUser = false;
+                if (!myProfileRendered && loggedInEmail && email && email === loggedInEmail) {
+                    isCurrentUser = true;
+                    myProfileRendered = true; // KUNCI BADGE SUPAYA TIDAK DILABEL DUA KALI
+                }
+
                 const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
                 const clusterConfig = getClusterConfig(kluster);
 
