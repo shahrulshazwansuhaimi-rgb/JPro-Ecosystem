@@ -403,22 +403,43 @@
             }
         }
 
-        function parseCSV(csvText) {
-            const lines = csvText.split('\n');
-            if (lines.length <= 1) return [];
+        // CSV PARSER PERSISTEN & PERSISI TINGGI
+        function parseCSV(text) {
+            let p = '', c = '', r = [];
+            let q = false;
+            let row = [''];
+            for (let i = 0; i < text.length; i++) {
+                c = text[i];
+                p = text[i - 1];
+                if (c === '"') {
+                    if (q && text[i + 1] === '"') { row[row.length - 1] += '"'; i++; }
+                    else { q = !q; }
+                } else if (c === ',' && !q) {
+                    row.push('');
+                } else if ((c === '\r' || c === '\n') && !q) {
+                    if (c === '\r' && text[i + 1] === '\n') { i++; }
+                    r.push(row);
+                    row = [''];
+                } else {
+                    row[row.length - 1] += c;
+                }
+            }
+            if (row.length > 1 || row[0] !== '') { r.push(row); }
+            if (r.length === 0) return [];
 
-            const headers = lines[0].split(',').map(h => h.replace(/^"|"$/g, '').trim().toLowerCase());
+            const headers = r[0].map(h => h.trim().toLowerCase());
             const result = [];
 
-            for (let i = 1; i < lines.length; i++) {
-                if (!lines[i].trim()) continue;
-                const values = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            for (let i = 1; i < r.length; i++) {
+                if (r[i].length === 1 && r[i][0].trim() === '') continue;
                 const obj = {};
-                headers.forEach((header, j) => {
-                    let val = values[j] ? values[j].replace(/^"|"$/g, '').trim() : '';
-                    obj[header] = val;
+                headers.forEach((h, idx) => {
+                    obj[h] = r[i][idx] ? r[i][idx].trim() : '';
                 });
-                result.push(obj);
+                // Memastikan hanya baris yang mengandungi maklumat nama/emel dikira
+                if (Object.values(obj).some(val => val.length > 0)) {
+                    result.push(obj);
+                }
             }
             return result;
         }
@@ -638,29 +659,13 @@
             
             const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
 
-            const uniqueMembers = [];
-            const seenEmails = new Set();
+            // MENAMPILKAN SEMUA DATA GOOGLE SHEETS MENGIKUT BARIS
+            const allMembers = [...members];
 
-            members.forEach(m => {
-                let email = '';
-                Object.keys(m).forEach(k => {
-                    if (k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) {
-                        email = m[k] ? m[k].toString().toLowerCase().trim() : '';
-                    }
-                });
+            // TAMPILKAN TOTAL RASMI MENGIKUT JUMLAH BARIS SHEET
+            document.getElementById('statTotalMembers').innerText = `${allMembers.length} Ahli`;
 
-                if (email && !seenEmails.has(email)) {
-                    seenEmails.add(email);
-                    uniqueMembers.push(m);
-                } else if (!email) {
-                    uniqueMembers.push(m);
-                }
-            });
-
-            // PENYELARASAN JUMLAH AHLI UNIK PADA HEADER
-            document.getElementById('statTotalMembers').innerText = `${uniqueMembers.length} Ahli`;
-
-            const sortedMembers = uniqueMembers.sort((a, b) => {
+            const sortedMembers = allMembers.sort((a, b) => {
                 let emailA = '', emailB = '';
                 Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k] ? a[k].toString().toLowerCase().trim() : ''; });
                 Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k] ? b[k].toString().toLowerCase().trim() : ''; });
