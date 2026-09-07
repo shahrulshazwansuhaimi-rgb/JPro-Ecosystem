@@ -392,6 +392,8 @@
         let cachedMembersData = [];
         let isExpanded = false;
         const INITIAL_LIMIT = 6;
+        let currentDisplayedCount = INITIAL_LIMIT; 
+        const BATCH_SIZE = 18; // Memuatkan 18 ahli tambahan setiap kali tekan
 
         function parseJwt(token) {
             try {
@@ -403,7 +405,6 @@
             }
         }
 
-        // CSV PARSER PERSISTEN & PERSISI TINGGI
         function parseCSV(text) {
             let p = '', c = '', r = [];
             let q = false;
@@ -436,7 +437,6 @@
                 headers.forEach((h, idx) => {
                     obj[h] = r[i][idx] ? r[i][idx].trim() : '';
                 });
-                // Memastikan hanya baris yang mengandungi maklumat nama/emel dikira
                 if (Object.values(obj).some(val => val.length > 0)) {
                     result.push(obj);
                 }
@@ -655,14 +655,12 @@
             const grid = document.getElementById('directoryGrid');
             const loadMoreBtn = document.getElementById('loadMoreContainer');
             const remainingCountSpan = document.getElementById('remainingCount');
+            
             grid.innerHTML = '';
             
             const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
-
-            // MENAMPILKAN SEMUA DATA GOOGLE SHEETS MENGIKUT BARIS
             const allMembers = [...members];
 
-            // TAMPILKAN TOTAL RASMI MENGIKUT JUMLAH BARIS SHEET
             document.getElementById('statTotalMembers').innerText = `${allMembers.length} Ahli`;
 
             const sortedMembers = allMembers.sort((a, b) => {
@@ -675,14 +673,17 @@
                 return 0;
             });
 
-            const displayMembers = isExpanded ? sortedMembers : sortedMembers.slice(0, INITIAL_LIMIT);
+            const displayMembers = isExpanded ? sortedMembers : sortedMembers.slice(0, currentDisplayedCount);
 
-            if (sortedMembers.length > INITIAL_LIMIT && !isExpanded) {
+            if (sortedMembers.length > currentDisplayedCount && !isExpanded) {
                 loadMoreBtn.classList.remove('hidden');
-                remainingCountSpan.innerText = sortedMembers.length - INITIAL_LIMIT;
+                remainingCountSpan.innerText = sortedMembers.length - currentDisplayedCount;
             } else {
                 loadMoreBtn.classList.add('hidden');
             }
+
+            // Guna DocumentFragment untuk elak browser lag
+            const fragment = document.createDocumentFragment();
 
             displayMembers.forEach(m => {
                 let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
@@ -716,46 +717,52 @@
                     });
                 }
 
-                grid.innerHTML += `
-                    <div class="member-card glass-card ${isCurrentUser ? 'my-profile-card' : ''} rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between relative overflow-hidden"
-                         data-name="${nama}" data-cluster="${kluster}" data-skills="${kemahiran}">
-                        
-                        ${isCurrentUser ? `
-                            <div class="absolute top-0 right-0 gold-gradient-bg text-neutral-950 text-[10px] font-black px-3 py-1 rounded-bl-xl shadow-md uppercase tracking-wider flex items-center gap-1">
-                                <i class="fa-solid fa-user-check"></i> Profil Saya
-                            </div>
-                        ` : ''}
+                const cardDiv = document.createElement('div');
+                cardDiv.className = `member-card glass-card ${isCurrentUser ? 'my-profile-card' : ''} rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between relative overflow-hidden`;
+                cardDiv.setAttribute('data-name', nama);
+                cardDiv.setAttribute('data-cluster', kluster);
+                cardDiv.setAttribute('data-skills', kemahiran);
 
-                        <div>
-                            <div class="flex justify-between items-start mb-5 ${isCurrentUser ? 'mt-2' : ''}">
-                                <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
-                                    ${initials}
-                                </div>
-                                <span class="${clusterConfig.bg} border ${clusterConfig.color} text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
-                                    <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
-                                </span>
-                            </div>
-                            <h2 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
-                                ${nama}
-                                <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
-                            </h2>
-                            <p class="text-xs font-semibold text-amber-400/90 mb-4 flex items-center gap-2">
-                                <i class="fa-solid fa-briefcase text-neutral-500 text-xs"></i> ${jawatan}
-                            </p>
-                            <div class="flex flex-wrap gap-1.5 mb-6">
-                                ${skillsHTML}
-                            </div>
+                cardDiv.innerHTML = `
+                    ${isCurrentUser ? `
+                        <div class="absolute top-0 right-0 gold-gradient-bg text-neutral-950 text-[10px] font-black px-3 py-1 rounded-bl-xl shadow-md uppercase tracking-wider flex items-center gap-1">
+                            <i class="fa-solid fa-user-check"></i> Profil Saya
                         </div>
-                        <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
-                            <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
-                        </a>
+                    ` : ''}
+
+                    <div>
+                        <div class="flex justify-between items-start mb-5 ${isCurrentUser ? 'mt-2' : ''}">
+                            <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
+                                ${initials}
+                            </div>
+                            <span class="${clusterConfig.bg} border ${clusterConfig.color} text-[11px] font-bold px-3 py-1.5 rounded-xl flex items-center gap-1.5">
+                                <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
+                            </span>
+                        </div>
+                        <h2 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
+                            ${nama}
+                            <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
+                        </h2>
+                        <p class="text-xs font-semibold text-amber-400/90 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-briefcase text-neutral-500 text-xs"></i> ${jawatan}
+                        </p>
+                        <div class="flex flex-wrap gap-1.5 mb-6">
+                            ${skillsHTML}
+                        </div>
                     </div>
+                    <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
+                        <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
+                    </a>
                 `;
+
+                fragment.appendChild(cardDiv);
             });
+
+            grid.appendChild(fragment);
         }
 
         function loadAllMembers() {
-            isExpanded = true;
+            currentDisplayedCount += BATCH_SIZE;
             renderCards(cachedMembersData);
         }
 
@@ -768,6 +775,9 @@
                 isExpanded = true;
                 renderCards(cachedMembersData);
                 loadMoreBtn.classList.add('hidden');
+            } else {
+                isExpanded = false;
+                renderCards(cachedMembersData);
             }
 
             const cards = document.querySelectorAll('.member-card');
