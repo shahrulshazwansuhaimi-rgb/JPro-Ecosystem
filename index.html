@@ -76,7 +76,7 @@
                 <div class="flex-grow border-t border-neutral-800"></div>
             </div>
 
-            <!-- BUTTON DAFTAR KEAHLIAN BAHARU (FIXED FADE HOVER) -->
+            <!-- BUTTON DAFTAR KEAHLIAN BAHARU -->
             <a href="https://jpro.org.my/pendaftaran-ahli-jpro-tahunan/" target="_blank" 
                class="w-full bg-neutral-900/90 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 font-bold py-3 px-4 rounded-full border border-amber-500/40 hover:border-amber-400 text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg transform hover:scale-[1.02] active:scale-95">
                 <i class="fa-solid fa-user-plus text-amber-400 group-hover:text-amber-300 transition-colors"></i>
@@ -166,12 +166,13 @@
         </button>
     </div>
 
-    <!-- NAVBAR EXECUTIVE BAR -->
+    <!-- NAVBAR EXECUTIVE BAR (LOGO DIBESARKAN) -->
     <nav class="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-lg sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <img src="logo%20jro.png" alt="Logo JPro" class="h-9 w-auto object-contain">
-                <span class="font-bold text-sm tracking-tight hidden sm:inline-block border-l border-neutral-800 pl-3 text-neutral-300">
+        <div class="max-w-6xl mx-auto px-4 py-2.5 flex justify-between items-center">
+            <div class="flex items-center gap-3 md:gap-4">
+                <!-- LOGO DIBESARKAN DARI h-9 KEPADA h-12 md:h-14 -->
+                <img src="logo%20jro.png" alt="Logo JPro" class="h-12 md:h-14 w-auto object-contain transition-all duration-300">
+                <span class="font-bold text-sm md:text-base tracking-tight hidden sm:inline-block border-l border-neutral-800 pl-3 md:pl-4 text-neutral-200">
                     Jabatan Profesional Muda
                 </span>
             </div>
@@ -516,6 +517,8 @@
                     document.getElementById("oauthOverlay").classList.add("hidden");
                     authErrorDiv.classList.add("hidden");
                     updateUserDisplay(userEmail);
+                    
+                    updateLastSeenStatus(userEmail);
                     resetAndRenderInitial();
                 } else {
                     authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula atau dendaftar di bawah.`;
@@ -525,6 +528,17 @@
                 authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Gagal menyemak pangkalan data JPro. Sila cuba lagi.`;
                 authErrorDiv.classList.remove("hidden");
             }
+        }
+
+        function updateLastSeenStatus(email) {
+            try {
+                fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'ping', email: email })
+                });
+            } catch(e){}
         }
 
         function getMemberEmail(m) {
@@ -554,7 +568,10 @@
             if (sessionStorage.getItem("jpro_google_auth") === "true") {
                 document.getElementById("oauthOverlay").classList.add("hidden");
                 const savedEmail = sessionStorage.getItem("jpro_user_email");
-                if (savedEmail) updateUserDisplay(savedEmail);
+                if (savedEmail) {
+                    updateUserDisplay(savedEmail);
+                    updateLastSeenStatus(savedEmail);
+                }
             }
             fetchMembersData();
         });
@@ -581,6 +598,7 @@
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Menyimpan...`;
 
             const payload = {
+                action: 'updateProfile',
                 email: userEmail,
                 nama: document.getElementById('editNama').value,
                 linkedin: document.getElementById('editLinkedin').value,
@@ -683,6 +701,30 @@
             return { icon: "fa-user-tie", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
         }
 
+        function formatLastSeen(dateStr) {
+            if (!dateStr || dateStr.trim() === '') return { text: 'Belum pernah log masuk', icon: 'fa-regular fa-clock', color: 'text-neutral-500' };
+            
+            try {
+                const lastDate = new Date(dateStr.replace(/-/g, '/'));
+                if (isNaN(lastDate)) return { text: dateStr, icon: 'fa-regular fa-clock', color: 'text-neutral-400' };
+
+                const now = new Date();
+                const diffMs = now - lastDate;
+                const diffHours = diffMs / (1000 * 60 * 60);
+
+                if (diffHours < 24) {
+                    return { text: 'Aktif Hari Ini', icon: 'fa-solid fa-circle text-[8px]', color: 'text-emerald-400' };
+                } else if (diffHours < 48) {
+                    return { text: 'Aktif Semalam', icon: 'fa-solid fa-clock', color: 'text-amber-400' };
+                } else {
+                    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                    return { text: `Log terakhir: ${lastDate.toLocaleDateString('ms-MY', options)}`, icon: 'fa-regular fa-clock', color: 'text-neutral-400' };
+                }
+            } catch(e) {
+                return { text: dateStr, icon: 'fa-regular fa-clock', color: 'text-neutral-400' };
+            }
+        }
+
         async function fetchMembersData() {
             const loading = document.getElementById('loading');
             const grid = document.getElementById('directoryGrid');
@@ -739,7 +781,7 @@
             const fragment = document.createDocumentFragment();
 
             itemsToRender.forEach(m => {
-                let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
+                let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#', lastSeen = '';
 
                 Object.keys(m).forEach(key => {
                     const k = key.toLowerCase();
@@ -749,6 +791,7 @@
                     else if (k.includes('kluster') || k.includes('sektor')) kluster = m[key];
                     else if (k.includes('kemahiran') || k.includes('hashtag')) kemahiran = m[key];
                     else if (k.includes('linkedin') || k.includes('pautan')) linkedin = m[key];
+                    else if (k.includes('last seen') || k.includes('last log')) lastSeen = m[key];
                 });
 
                 nama = nama || m.nama || 'Ahli JPro';
@@ -766,6 +809,7 @@
 
                 const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
                 const clusterConfig = getClusterConfig(kluster);
+                const lastSeenFormatted = formatLastSeen(lastSeen);
 
                 let skillsHTML = '';
                 if(kemahiran) {
@@ -789,7 +833,7 @@
                     ` : ''}
 
                     <div>
-                        <div class="flex justify-between items-start mb-5 ${isCurrentUser ? 'mt-2' : ''}">
+                        <div class="flex justify-between items-start mb-4 ${isCurrentUser ? 'mt-2' : ''}">
                             <div class="w-14 h-14 gold-gradient-bg text-neutral-950 rounded-2xl flex items-center justify-center font-black text-xl shadow-lg">
                                 ${initials}
                             </div>
@@ -797,6 +841,13 @@
                                 <i class="fa-solid ${clusterConfig.icon}"></i> ${kluster}
                             </span>
                         </div>
+
+                        <!-- LAST SEEN STATUS BADGE -->
+                        <div class="mb-3 flex items-center gap-1.5 text-[11px] ${lastSeenFormatted.color} font-medium">
+                            <i class="${lastSeenFormatted.icon}"></i>
+                            <span>${lastSeenFormatted.text}</span>
+                        </div>
+
                         <h2 class="text-xl font-bold text-neutral-100 mb-1 flex items-center gap-2">
                             ${nama}
                             <i class="fa-solid fa-circle-check text-amber-400 text-sm" title="Ahli JPro Berdaftar"></i>
