@@ -242,7 +242,7 @@
 
             <!-- BUTANG EXPLORE TEMA PUTIH BERSERI & SLEEK -->
             <div id="loadMoreContainer" class="mt-14 text-center hidden">
-                <button onclick="loadAllMembers()" 
+                <button onclick="loadMoreMembers()" 
                         class="bg-white/95 hover:bg-white text-neutral-950 font-bold px-8 py-3.5 rounded-full shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_35px_rgba(191,149,63,0.4)] border border-amber-400/60 transition-all duration-300 text-xs md:text-sm inline-flex items-center gap-2.5 transform hover:-translate-y-1 active:scale-95 group">
                     <i class="fa-solid fa-compass text-amber-600 group-hover:rotate-45 transition-transform duration-300"></i> 
                     <span>Terokai Lagi Ahli JPro (<strong class="text-amber-600" id="remainingCount">0</strong> Ahli)</span>
@@ -389,11 +389,10 @@
         const SHEET_URL = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/export?format=csv`;
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxWy2p0u-flQqg7YBToGLruk-oKaWHyY1YdAOn-LsoUjdaZ9gtAxYFflQYYbDLTI7W1zQ/exec';
 
-        let cachedMembersData = [];
-        let isExpanded = false;
+        let sortedMembersData = [];
+        let currentlyRenderedIndex = 0;
         const INITIAL_LIMIT = 6;
-        let currentDisplayedCount = INITIAL_LIMIT; 
-        const BATCH_SIZE = 18; // Memuatkan 18 ahli tambahan setiap kali tekan
+        const BATCH_SIZE = 18;
 
         function parseJwt(token) {
             try {
@@ -455,15 +454,14 @@
             const userEmail = responsePayload.email.toLowerCase().trim();
 
             try {
-                let members = cachedMembersData;
-                if (!members || members.length === 0) {
+                if (sortedMembersData.length === 0) {
                     const res = await fetch(SHEET_URL);
                     const csvText = await res.text();
-                    members = parseCSV(csvText);
-                    cachedMembersData = members;
+                    const members = parseCSV(csvText);
+                    processAndSortMembers(members);
                 }
                 
-                const isAuthorized = Array.isArray(members) && members.some(m => 
+                const isAuthorized = sortedMembersData.some(m => 
                     Object.values(m).some(val => val && val.toString().toLowerCase().trim() === userEmail)
                 );
 
@@ -473,7 +471,7 @@
                     document.getElementById("oauthOverlay").classList.add("hidden");
                     document.getElementById("authError").classList.add("hidden");
                     updateUserDisplay(userEmail);
-                    renderCards(members);
+                    resetAndRenderInitial();
                 } else {
                     document.getElementById("authError").innerText = `Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula.`;
                     document.getElementById("authError").classList.remove("hidden");
@@ -640,30 +638,20 @@
                 const csvText = await response.text();
                 const data = parseCSV(csvText);
                 
-                cachedMembersData = data.length > 0 ? data : fallbackMembers;
-                renderCards(cachedMembersData);
+                processAndSortMembers(data.length > 0 ? data : fallbackMembers);
             } catch (error) {
-                cachedMembersData = fallbackMembers;
-                renderCards(fallbackMembers);
+                processAndSortMembers(fallbackMembers);
             } finally {
                 loading.classList.add('hidden');
                 grid.classList.remove('hidden');
+                resetAndRenderInitial();
             }
         }
 
-        function renderCards(members) {
-            const grid = document.getElementById('directoryGrid');
-            const loadMoreBtn = document.getElementById('loadMoreContainer');
-            const remainingCountSpan = document.getElementById('remainingCount');
-            
-            grid.innerHTML = '';
-            
+        function processAndSortMembers(members) {
             const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
-            const allMembers = [...members];
-
-            document.getElementById('statTotalMembers').innerText = `${allMembers.length} Ahli`;
-
-            const sortedMembers = allMembers.sort((a, b) => {
+            
+            sortedMembersData = [...members].sort((a, b) => {
                 let emailA = '', emailB = '';
                 Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k] ? a[k].toString().toLowerCase().trim() : ''; });
                 Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k] ? b[k].toString().toLowerCase().trim() : ''; });
@@ -673,19 +661,29 @@
                 return 0;
             });
 
-            const displayMembers = isExpanded ? sortedMembers : sortedMembers.slice(0, currentDisplayedCount);
+            document.getElementById('statTotalMembers').innerText = `${sortedMembersData.length} Ahli`;
+        }
 
-            if (sortedMembers.length > currentDisplayedCount && !isExpanded) {
-                loadMoreBtn.classList.remove('hidden');
-                remainingCountSpan.innerText = sortedMembers.length - currentDisplayedCount;
-            } else {
-                loadMoreBtn.classList.add('hidden');
-            }
+        function resetAndRenderInitial() {
+            const grid = document.getElementById('directoryGrid');
+            grid.innerHTML = '';
+            currentlyRenderedIndex = 0;
+            appendNextBatch(INITIAL_LIMIT);
+        }
 
-            // Guna DocumentFragment untuk elak browser lag
+        function appendNextBatch(countToAppend) {
+            const grid = document.getElementById('directoryGrid');
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
+            const remainingCountSpan = document.getElementById('remainingCount');
+            const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
+
+            const itemsToRender = sortedMembersData.slice(currentlyRenderedIndex, currentlyRenderedIndex + countToAppend);
+            
+            if (itemsToRender.length === 0) return;
+
             const fragment = document.createDocumentFragment();
 
-            displayMembers.forEach(m => {
+            itemsToRender.forEach(m => {
                 let nama = '', email = '', jawatan = '', kluster = '', kemahiran = '', linkedin = '#';
 
                 Object.keys(m).forEach(key => {
@@ -759,11 +757,19 @@
             });
 
             grid.appendChild(fragment);
+            currentlyRenderedIndex += itemsToRender.length;
+
+            const remaining = sortedMembersData.length - currentlyRenderedIndex;
+            if (remaining > 0) {
+                loadMoreBtn.classList.remove('hidden');
+                remainingCountSpan.innerText = remaining;
+            } else {
+                loadMoreBtn.classList.add('hidden');
+            }
         }
 
-        function loadAllMembers() {
-            currentDisplayedCount += BATCH_SIZE;
-            renderCards(cachedMembersData);
+        function loadMoreMembers() {
+            appendNextBatch(BATCH_SIZE);
         }
 
         function filterDirectory() {
@@ -771,13 +777,15 @@
             const clusterFilter = document.getElementById('clusterFilter').value;
             const loadMoreBtn = document.getElementById('loadMoreContainer');
 
+            // Apabila carian dilakukan, muat kesemua yang belum di-render supaya pencarian menyeluruh
             if (searchInput !== '' || clusterFilter !== 'ALL') {
-                isExpanded = true;
-                renderCards(cachedMembersData);
+                if (currentlyRenderedIndex < sortedMembersData.length) {
+                    appendNextBatch(sortedMembersData.length - currentlyRenderedIndex);
+                }
                 loadMoreBtn.classList.add('hidden');
             } else {
-                isExpanded = false;
-                renderCards(cachedMembersData);
+                const remaining = sortedMembersData.length - currentlyRenderedIndex;
+                if (remaining > 0) loadMoreBtn.classList.remove('hidden');
             }
 
             const cards = document.querySelectorAll('.member-card');
