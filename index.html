@@ -482,9 +482,10 @@
                     processAndSortMembers(members);
                 }
                 
-                const isAuthorized = sortedMembersData.some(m => 
-                    Object.values(m).some(val => val && val.toString().toLowerCase().trim() === userEmail)
-                );
+                const isAuthorized = sortedMembersData.some(m => {
+                    let email = getMemberEmail(m);
+                    return email && email === userEmail;
+                });
 
                 if (isAuthorized) {
                     sessionStorage.setItem("jpro_google_auth", "true");
@@ -501,6 +502,16 @@
                 document.getElementById("authError").innerText = "Gagal menyemak pangkalan data JPro. Sila cuba lagi.";
                 document.getElementById("authError").classList.remove("hidden");
             }
+        }
+
+        function getMemberEmail(m) {
+            let email = '';
+            Object.keys(m).forEach(k => {
+                if (k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) {
+                    email = m[k] ? m[k].toString().toLowerCase().trim() : '';
+                }
+            });
+            return email;
         }
 
         function updateUserDisplay(email) {
@@ -645,9 +656,7 @@
             return { icon: "fa-user-tie", color: "text-amber-400", bg: "bg-amber-400/10 border-amber-400/30" };
         }
 
-        const fallbackMembers = [
-            { nama: "Ahli JPro", email: "ahli@jpro.org.my", jawatan: "Ahli Profesional", kluster: "Teknologi Maklumat", kemahiran: "Professional, Strategy", linkedin: "https://linkedin.com" }
-        ];
+        const fallbackMembers = [];
 
         async function fetchMembersData() {
             const loading = document.getElementById('loading');
@@ -672,13 +681,26 @@
         function processAndSortMembers(members) {
             const loggedInEmail = (sessionStorage.getItem("jpro_user_email") || '').toLowerCase().trim();
             
-            sortedMembersData = [...members].sort((a, b) => {
-                let emailA = '', emailB = '';
-                Object.keys(a).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailA = a[k] ? a[k].toString().toLowerCase().trim() : ''; });
-                Object.keys(b).forEach(k => { if(k.toLowerCase().includes('emel') || k.toLowerCase().includes('email')) emailB = b[k] ? b[k].toString().toLowerCase().trim() : ''; });
+            // TAPISAN DEDUPLICATION PADA EMEL
+            const uniqueMembers = [];
+            const seenEmails = new Set();
+
+            members.forEach(m => {
+                let email = getMemberEmail(m);
+                if (email && !seenEmails.has(email)) {
+                    seenEmails.add(email);
+                    uniqueMembers.push(m);
+                } else if (!email) {
+                    uniqueMembers.push(m);
+                }
+            });
+
+            sortedMembersData = uniqueMembers.sort((a, b) => {
+                let emailA = getMemberEmail(a);
+                let emailB = getMemberEmail(b);
                 
-                if (emailA === loggedInEmail) return -1;
-                if (emailB === loggedInEmail) return 1;
+                if (loggedInEmail && emailA === loggedInEmail) return -1;
+                if (loggedInEmail && emailB === loggedInEmail) return 1;
                 return 0;
             });
 
@@ -724,7 +746,8 @@
                 kemahiran = kemahiran || m.kemahiran || '';
                 linkedin = linkedin || m.linkedin || '#';
 
-                const isCurrentUser = loggedInEmail && (email === loggedInEmail);
+                // PENENTUAN HANYA SINGLE VALID USER PERTAMA SAHAJA
+                const isCurrentUser = Boolean(loggedInEmail && email && email === loggedInEmail);
                 const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
                 const clusterConfig = getClusterConfig(kluster);
 
