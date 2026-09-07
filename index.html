@@ -252,7 +252,7 @@
                 <button onclick="loadMoreMembers()" 
                         class="bg-white/95 hover:bg-white text-neutral-950 font-bold px-8 py-3.5 rounded-full shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_35px_rgba(191,149,63,0.4)] border border-amber-400/60 transition-all duration-300 text-xs md:text-sm inline-flex items-center gap-2.5 transform hover:-translate-y-1 active:scale-95 group">
                     <i class="fa-solid fa-compass text-amber-600 group-hover:rotate-45 transition-transform duration-300"></i> 
-                    <span>Terokai Lagi Ahli JPro (<strong class="text-amber-600" id="remainingCount">0</strong> Ahli)</span>
+                    <span>Terokai Lagi Ahli JPro (<strong class="text-amber-600" id="remainingCount">Baki 0 Ahli</strong>)</span>
                 </button>
             </div>
         </div>
@@ -491,7 +491,7 @@
                     sessionStorage.setItem("jpro_google_auth", "true");
                     sessionStorage.setItem("jpro_user_email", userEmail);
                     document.getElementById("oauthOverlay").classList.add("hidden");
-                    document.getElementById("authError").classList.add("hidden");
+                    document.getElementById("authError").classList.remove("hidden");
                     updateUserDisplay(userEmail);
                     resetAndRenderInitial();
                 } else {
@@ -746,7 +746,6 @@
                 kemahiran = kemahiran || m.kemahiran || '';
                 linkedin = linkedin || m.linkedin || '#';
 
-                // PENENTUAN HANYA SINGLE VALID USER PERTAMA SAHAJA
                 const isCurrentUser = Boolean(loggedInEmail && email && email === loggedInEmail);
                 const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
                 const clusterConfig = getClusterConfig(kluster);
@@ -806,7 +805,7 @@
             const remaining = sortedMembersData.length - currentlyRenderedIndex;
             if (remaining > 0) {
                 loadMoreBtn.classList.remove('hidden');
-                remainingCountSpan.innerText = remaining;
+                remainingCountSpan.innerText = `Baki ${remaining} Ahli`;
             } else {
                 loadMoreBtn.classList.add('hidden');
             }
