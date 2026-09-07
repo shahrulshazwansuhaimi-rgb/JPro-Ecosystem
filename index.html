@@ -41,9 +41,24 @@
             box-shadow: 0 0 30px -5px rgba(191, 149, 63, 0.45) !important;
             background: linear-gradient(180deg, rgba(191, 149, 63, 0.08) 0%, rgba(23, 23, 23, 0.85) 100%) !important;
         }
+        
+        /* Skeleton Animation */
+        @keyframes pulse-bg {
+            0%, 100% { background-color: rgba(38, 38, 38, 0.6); }
+            50% { background-color: rgba(64, 64, 64, 0.4); }
+        }
+        .skeleton-box {
+            animation: pulse-bg 1.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body class="bg-neutral-950 text-neutral-100 min-h-screen selection:bg-amber-500 selection:text-neutral-950 pb-20">
+
+    <!-- TOAST NOTIFICATION FOR COPY SHARE -->
+    <div id="toast" class="fixed top-20 right-6 z-50 bg-neutral-900 border border-amber-500/50 text-amber-300 px-4 py-3 rounded-2xl shadow-2xl backdrop-blur-xl transition-all duration-300 transform translate-y-[-20px] opacity-0 pointer-events-none flex items-center gap-2 text-xs font-bold">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-sm"></i>
+        <span id="toastMsg">Pautan berjaya disalin!</span>
+    </div>
 
     <!-- GOOGLE OAUTH SECURITY OVERLAY -->
     <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-xl flex items-center justify-center p-4">
@@ -60,7 +75,6 @@
             <h2 class="text-2xl md:text-3xl font-extrabold text-neutral-100 mb-2">Portal Eksklusif JPro</h2>
             <p class="text-neutral-400 text-xs md:text-sm mb-6 leading-relaxed">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
             
-            <!-- GOOGLE SIGN IN BUTTON -->
             <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="114130991559-0156lce3d17ddr0i2g0suqpob1qn31sj.apps.googleusercontent.com"
@@ -69,14 +83,12 @@
                 <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large" data-shape="pill"></div>
             </div>
 
-            <!-- SEPARATOR -->
             <div class="relative flex py-3 items-center my-2">
                 <div class="flex-grow border-t border-neutral-800"></div>
                 <span class="flex-shrink mx-3 text-[11px] font-semibold text-neutral-500 uppercase tracking-widest">Atau</span>
                 <div class="flex-grow border-t border-neutral-800"></div>
             </div>
 
-            <!-- BUTTON DAFTAR KEAHLIAN BAHARU (FIXED FADE HOVER) -->
             <a href="https://jpro.org.my/pendaftaran-ahli-jpro-tahunan/" target="_blank" 
                class="w-full bg-neutral-900/90 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 font-bold py-3 px-4 rounded-full border border-amber-500/40 hover:border-amber-400 text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg transform hover:scale-[1.02] active:scale-95">
                 <i class="fa-solid fa-user-plus text-amber-400 group-hover:text-amber-300 transition-colors"></i>
@@ -84,7 +96,6 @@
                 <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70 group-hover:opacity-100 transition-opacity"></i>
             </a>
 
-            <!-- ERROR MESSAGE CONTAINER -->
             <div id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-3 px-3 rounded-xl font-medium leading-relaxed">
                 <p id="authErrorText"><i class="fa-solid fa-circle-exclamation mr-1"></i> Emel anda tiada dalam rekod keahlian JPro.</p>
                 <a href="https://jpro.org.my/pendaftaran-ahli-jpro-tahunan/" target="_blank" class="inline-block mt-2 text-amber-400 underline hover:text-amber-300 font-semibold transition">
@@ -210,7 +221,7 @@
             
             <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl mx-auto mb-8">
                 <div class="glass-card p-3.5 rounded-2xl text-center">
-                    <p class="text-xs text-neutral-400 uppercase font-semibold">Ahli Terdaftar</p>
+                    <p class="text-xs text-neutral-400 uppercase font-semibold">Ahli Dipaparkan</p>
                     <p id="statTotalMembers" class="text-xl md:text-2xl font-black text-amber-400">--</p>
                 </div>
                 
@@ -271,9 +282,29 @@
                 </div>
             </div>
 
-            <div id="loading" class="text-center py-20">
-                <i class="fa-solid fa-circle-notch fa-spin text-amber-500 text-4xl mb-4"></i>
-                <p class="text-neutral-400 text-sm font-light">Memuatkan direktori kluster JPro...</p>
+            <!-- SKELETON LOADING GRID ANIMATION -->
+            <div id="loading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 py-6">
+                <div class="glass-card rounded-3xl p-6 h-64 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4"><div class="w-14 h-14 rounded-2xl skeleton-box"></div><div class="w-24 h-6 rounded-xl skeleton-box"></div></div>
+                        <div class="w-3/4 h-6 rounded-lg skeleton-box mb-2"></div><div class="w-1/2 h-4 rounded-lg skeleton-box mb-4"></div><div class="w-full h-8 rounded-lg skeleton-box"></div>
+                    </div>
+                    <div class="w-full h-10 rounded-xl skeleton-box"></div>
+                </div>
+                <div class="glass-card rounded-3xl p-6 h-64 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4"><div class="w-14 h-14 rounded-2xl skeleton-box"></div><div class="w-24 h-6 rounded-xl skeleton-box"></div></div>
+                        <div class="w-3/4 h-6 rounded-lg skeleton-box mb-2"></div><div class="w-1/2 h-4 rounded-lg skeleton-box mb-4"></div><div class="w-full h-8 rounded-lg skeleton-box"></div>
+                    </div>
+                    <div class="w-full h-10 rounded-xl skeleton-box"></div>
+                </div>
+                <div class="glass-card rounded-3xl p-6 h-64 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-center mb-4"><div class="w-14 h-14 rounded-2xl skeleton-box"></div><div class="w-24 h-6 rounded-xl skeleton-box"></div></div>
+                        <div class="w-3/4 h-6 rounded-lg skeleton-box mb-2"></div><div class="w-1/2 h-4 rounded-lg skeleton-box mb-4"></div><div class="w-full h-8 rounded-lg skeleton-box"></div>
+                    </div>
+                    <div class="w-full h-10 rounded-xl skeleton-box"></div>
+                </div>
             </div>
 
             <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
@@ -435,6 +466,21 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            const toastMsg = document.getElementById("toastMsg");
+            toastMsg.innerText = msg;
+            toast.classList.remove("opacity-0", "pointer-events-none", "translate-y-[-20px]");
+            setTimeout(() => {
+                toast.classList.add("opacity-0", "pointer-events-none", "translate-y-[-20px]");
+            }, 2500);
+        }
+
+        function copyShareLink(link, name) {
+            navigator.clipboard.writeText(link);
+            showToast(`Pautan LinkedIn ${name} berjaya disalin!`);
+        }
+
         function parseJwt(token) {
             try {
                 const base64Url = token.split('.')[1];
@@ -499,10 +545,7 @@
 
             try {
                 if (sortedMembersData.length === 0) {
-                    const res = await fetch(SHEET_URL);
-                    const csvText = await res.text();
-                    const members = parseCSV(csvText);
-                    processAndSortMembers(members);
+                    await fetchMembersData();
                 }
                 
                 const isAuthorized = sortedMembersData.some(m => {
@@ -518,7 +561,7 @@
                     updateUserDisplay(userEmail);
                     resetAndRenderInitial();
                 } else {
-                    authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula atau dendaftar di bawah.`;
+                    authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula atau berdaftar di bawah.`;
                     authErrorDiv.classList.remove("hidden");
                 }
             } catch (e) {
@@ -547,6 +590,7 @@
         function logoutUser() {
             sessionStorage.removeItem("jpro_google_auth");
             sessionStorage.removeItem("jpro_user_email");
+            sessionStorage.removeItem("jpro_cached_csv");
             location.reload();
         }
 
@@ -597,6 +641,7 @@
                 });
 
                 alert("Profil anda telah berjaya dikemas kini!");
+                sessionStorage.removeItem("jpro_cached_csv"); // Refresh Cache
                 closeEditModal();
                 setTimeout(fetchMembersData, 1200);
             } catch (error) {
@@ -687,10 +732,22 @@
             const loading = document.getElementById('loading');
             const grid = document.getElementById('directoryGrid');
 
+            // SESSIONSTORAGE CACHING FOR INSTANT LOAD
+            const cachedCSV = sessionStorage.getItem("jpro_cached_csv");
+            if (cachedCSV) {
+                const data = parseCSV(cachedCSV);
+                processAndSortMembers(data);
+                loading.classList.add('hidden');
+                grid.classList.remove('hidden');
+                resetAndRenderInitial();
+                return;
+            }
+
             try {
                 const response = await fetch(SHEET_URL);
                 if (!response.ok) throw new Error();
                 const csvText = await response.text();
+                sessionStorage.setItem("jpro_cached_csv", csvText); // Save Cache
                 const data = parseCSV(csvText);
                 
                 processAndSortMembers(data);
@@ -808,9 +865,15 @@
                             ${skillsHTML}
                         </div>
                     </div>
-                    <a href="${linkedin}" target="_blank" class="w-full bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
-                        <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
-                    </a>
+
+                    <div class="flex gap-2 w-full">
+                        <a href="${linkedin}" target="_blank" class="flex-grow bg-neutral-950 hover:gold-gradient-bg hover:text-neutral-950 border border-amber-500/30 text-amber-400 font-bold py-2.5 rounded-xl text-center text-xs transition duration-300 flex items-center justify-center gap-2 shadow-md">
+                            <i class="fa-brands fa-linkedin text-base"></i> Connect di LinkedIn
+                        </a>
+                        <button onclick="copyShareLink('${linkedin}', '${nama}')" title="Salin Pautan LinkedIn" class="bg-neutral-950 hover:bg-neutral-900 border border-amber-500/30 text-amber-400 p-2.5 rounded-xl transition duration-300 flex items-center justify-center text-xs shadow-md">
+                            <i class="fa-solid fa-share-nodes"></i>
+                        </button>
+                    </div>
                 `;
 
                 fragment.appendChild(cardDiv);
@@ -847,6 +910,7 @@
                 if (remaining > 0) loadMoreBtn.classList.remove('hidden');
             }
 
+            let visibleCount = 0;
             const cards = document.querySelectorAll('.member-card');
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
@@ -856,8 +920,16 @@
                 const matchesSearch = name.includes(searchInput) || skills.includes(searchInput);
                 const matchesCluster = (clusterFilter === 'ALL') || cluster.includes(clusterFilter.toLowerCase());
 
-                card.style.display = (matchesSearch && matchesCluster) ? "flex" : "none";
+                if (matchesSearch && matchesCluster) {
+                    card.style.display = "flex";
+                    visibleCount++;
+                } else {
+                    card.style.display = "none";
+                }
             });
+
+            // LIVE DYNAMIC COUNTER IN HEADER
+            document.getElementById('statTotalMembers').innerText = `${visibleCount} Ahli`;
         }
     </script>
 </body>
