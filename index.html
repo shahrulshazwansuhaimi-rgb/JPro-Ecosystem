@@ -43,7 +43,7 @@
         }
     </style>
 </head>
-<body class="bg-neutral-950 text-neutral-100 min-h-screen selection:bg-amber-500 selection:text-neutral-950">
+<body class="bg-neutral-950 text-neutral-100 min-h-screen selection:bg-amber-500 selection:text-neutral-950 pb-20">
 
     <!-- GOOGLE OAUTH SECURITY OVERLAY -->
     <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-xl flex items-center justify-center p-4">
@@ -130,10 +130,21 @@
 
     <!-- FLOATING TRANSLUCENT SIDE PILL BUTTON (SCROLL TO TOP) -->
     <button id="scrollToTopBtn" onclick="scrollToTop()" title="Ke Atas" 
-            class="fixed bottom-6 right-6 z-40 hidden bg-neutral-900/80 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 border border-amber-500/40 hover:border-amber-400 backdrop-blur-md px-4 py-3 rounded-full shadow-[0_0_20px_rgba(0,0,0,0.5)] transition-all duration-300 flex items-center gap-2 text-xs font-bold tracking-wide transform hover:scale-105 active:scale-95 group">
+            class="fixed bottom-8 right-6 z-40 hidden bg-neutral-900/80 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 border border-amber-500/40 hover:border-amber-400 backdrop-blur-md px-4 py-3 rounded-full shadow-[0_0_25px_rgba(0,0,0,0.6)] transition-all duration-300 flex items-center gap-2 text-xs font-bold tracking-wide transform hover:scale-105 active:scale-95 group">
         <i class="fa-solid fa-arrow-up group-hover:-translate-y-0.5 transition-transform duration-300"></i>
         <span class="hidden sm:inline">Ke Atas</span>
     </button>
+
+    <!-- FLOATING TRANSLUCENT PILL BUTTON (TEROKAI LAGI AHLI) -->
+    <div id="loadMoreContainer" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-40 hidden">
+        <button onclick="loadMoreMembers()" 
+                class="bg-neutral-900/85 hover:bg-neutral-900 text-neutral-100 hover:text-amber-300 font-bold px-7 py-3.5 rounded-full shadow-[0_10px_30px_rgba(0,0,0,0.8)] border border-amber-500/40 hover:border-amber-400 backdrop-blur-xl transition-all duration-300 text-xs md:text-sm inline-flex items-center gap-3 transform hover:scale-105 active:scale-95 group gold-glow">
+            <div class="w-6 h-6 gold-gradient-bg text-neutral-950 rounded-full flex items-center justify-center text-[10px] font-black shadow-sm group-hover:rotate-45 transition-transform duration-300">
+                <i class="fa-solid fa-compass"></i>
+            </div>
+            <span>Terokai Lagi Ahli JPro (<strong class="text-amber-400" id="remainingCount">Baki 0 Ahli</strong>)</span>
+        </button>
+    </div>
 
     <!-- NAVBAR EXECUTIVE BAR -->
     <nav class="border-b border-neutral-800/80 bg-neutral-950/80 backdrop-blur-lg sticky top-0 z-40">
@@ -246,15 +257,6 @@
             </div>
 
             <div id="directoryGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 hidden"></div>
-
-            <!-- BUTANG EXPLORE TEMA PUTIH BERSERI & SLEEK -->
-            <div id="loadMoreContainer" class="mt-14 text-center hidden">
-                <button onclick="loadMoreMembers()" 
-                        class="bg-white/95 hover:bg-white text-neutral-950 font-bold px-8 py-3.5 rounded-full shadow-[0_0_25px_rgba(255,255,255,0.2)] hover:shadow-[0_0_35px_rgba(191,149,63,0.4)] border border-amber-400/60 transition-all duration-300 text-xs md:text-sm inline-flex items-center gap-2.5 transform hover:-translate-y-1 active:scale-95 group">
-                    <i class="fa-solid fa-compass text-amber-600 group-hover:rotate-45 transition-transform duration-300"></i> 
-                    <span>Terokai Lagi Ahli JPro (<strong class="text-amber-600" id="remainingCount">Baki 0 Ahli</strong>)</span>
-                </button>
-            </div>
         </div>
 
         <!-- SECTION 2: CARTA ORGANISASI (ORG CHART 2025/2027) -->
@@ -586,6 +588,7 @@
             const orgSec = document.getElementById('orgChartSection');
             const tabDirBtn = document.getElementById('tabDirectoryBtn');
             const tabOrgBtn = document.getElementById('tabOrgBtn');
+            const loadMoreBtn = document.getElementById('loadMoreContainer');
 
             const activeBtnClass = "gold-gradient-bg text-neutral-950 font-extrabold px-6 py-3 rounded-2xl shadow-xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
             const inactiveBtnClass = "bg-neutral-900 border border-amber-500/30 text-amber-400 hover:bg-neutral-800 font-bold px-6 py-3 rounded-2xl transition-all duration-300 flex items-center gap-2 text-sm transform hover:-translate-y-0.5";
@@ -599,11 +602,14 @@
                     orgSec.classList.add('hidden');
                     dirSec.classList.remove('hidden');
                     setTimeout(() => dirSec.classList.remove('opacity-0'), 50);
+                    const remaining = sortedMembersData.length - currentlyRenderedIndex;
+                    if (remaining > 0) loadMoreBtn.classList.remove('hidden');
                 }, 300);
             } else {
                 tabOrgBtn.className = activeBtnClass;
                 tabDirBtn.className = inactiveBtnClass;
                 dirSec.classList.add('opacity-0');
+                loadMoreBtn.classList.add('hidden');
 
                 setTimeout(() => {
                     dirSec.classList.add('hidden');
