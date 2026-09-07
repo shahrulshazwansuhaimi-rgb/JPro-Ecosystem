@@ -47,7 +47,7 @@
 
     <!-- GOOGLE OAUTH SECURITY OVERLAY -->
     <div id="oauthOverlay" class="fixed inset-0 z-50 bg-neutral-950/95 backdrop-blur-xl flex items-center justify-center p-4">
-        <div class="glass-card rounded-3xl p-8 md:p-10 max-w-md w-full text-center shadow-2xl relative overflow-hidden gold-glow">
+        <div class="glass-card rounded-3xl p-8 md:p-10 max-w-md w-full text-center shadow-2xl relative overflow-hidden gold-glow border border-amber-500/30">
             <div class="absolute -top-24 -left-24 w-48 h-48 bg-amber-500/10 rounded-full blur-3xl"></div>
             
             <div class="w-24 h-24 mx-auto mb-4 flex items-center justify-center p-2 rounded-2xl bg-neutral-900/80 border border-amber-500/30 gold-glow">
@@ -58,8 +58,9 @@
                 Akses Terhad
             </span>
             <h2 class="text-2xl md:text-3xl font-extrabold text-neutral-100 mb-2">Portal Eksklusif JPro</h2>
-            <p class="text-neutral-400 text-xs md:text-sm mb-8 leading-relaxed">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
+            <p class="text-neutral-400 text-xs md:text-sm mb-6 leading-relaxed">Sila log masuk menggunakan emel Google/Gmail yang telah berdaftar dalam pangkalan data ahli JPro.</p>
             
+            <!-- GOOGLE SIGN IN BUTTON -->
             <div class="flex justify-center mb-4">
                 <div id="g_id_onload"
                      data-client_id="114130991559-0156lce3d17ddr0i2g0suqpob1qn31sj.apps.googleusercontent.com"
@@ -68,9 +69,28 @@
                 <div class="g_id_signin" data-type="standard" data-theme="filled_black" data-size="large" data-shape="pill"></div>
             </div>
 
-            <p id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-2.5 px-3 rounded-xl font-medium">
-                <i class="fa-solid fa-circle-exclamation mr-1"></i> Emel anda tiada dalam rekod keahlian JPro. Sila semak semula.
-            </p>
+            <!-- SEPARATOR -->
+            <div class="relative flex py-3 items-center my-2">
+                <div class="flex-grow border-t border-neutral-800"></div>
+                <span class="flex-shrink mx-3 text-[11px] font-semibold text-neutral-500 uppercase tracking-widest">Atau</span>
+                <div class="flex-grow border-t border-neutral-800"></div>
+            </div>
+
+            <!-- BUTTON DAFTAR KEAHLIAN BAHARU -->
+            <a href="https://jpro.org.my/pendaftaran-ahli-jpro-tahunan/" target="_blank" 
+               class="w-full bg-neutral-900/90 hover:gold-gradient-bg text-amber-400 hover:text-neutral-950 font-bold py-3 px-4 rounded-full border border-amber-500/40 hover:border-amber-400 text-xs md:text-sm transition-all duration-300 flex items-center justify-center gap-2 group shadow-lg">
+                <i class="fa-solid fa-user-plus text-amber-400 group-hover:text-neutral-950 transition-colors"></i>
+                <span>Daftar Keahlian JPro Baharu</span>
+                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70"></i>
+            </a>
+
+            <!-- ERROR MESSAGE CONTAINER -->
+            <div id="authError" class="text-red-400 text-xs mt-4 hidden bg-red-500/10 border border-red-500/20 py-3 px-3 rounded-xl font-medium leading-relaxed">
+                <p id="authErrorText"><i class="fa-solid fa-circle-exclamation mr-1"></i> Emel anda tiada dalam rekod keahlian JPro.</p>
+                <a href="https://jpro.org.my/pendaftaran-ahli-jpro-tahunan/" target="_blank" class="inline-block mt-2 text-amber-400 underline hover:text-amber-300 font-semibold">
+                    Klik di sini untuk mendaftar borang keahlian
+                </a>
+            </div>
         </div>
     </div>
 
@@ -398,7 +418,7 @@
 
         let sortedMembersData = [];
         let currentlyRenderedIndex = 0;
-        let myProfileRendered = false; // FLAG STRICT SINGLE BADGE
+        let myProfileRendered = false;
         const INITIAL_LIMIT = 6;
         const BATCH_SIZE = 18;
 
@@ -466,9 +486,12 @@
 
         async function handleCredentialResponse(response) {
             const responsePayload = parseJwt(response.credential);
+            const authErrorDiv = document.getElementById("authError");
+            const authErrorText = document.getElementById("authErrorText");
+
             if (!responsePayload || !responsePayload.email) {
-                document.getElementById("authError").innerText = "Gagal memproses maklumat Google Sign-In.";
-                document.getElementById("authError").classList.remove("hidden");
+                authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Gagal memproses maklumat Google Sign-In.`;
+                authErrorDiv.classList.remove("hidden");
                 return;
             }
 
@@ -491,16 +514,16 @@
                     sessionStorage.setItem("jpro_google_auth", "true");
                     sessionStorage.setItem("jpro_user_email", userEmail);
                     document.getElementById("oauthOverlay").classList.add("hidden");
-                    document.getElementById("authError").classList.add("hidden");
+                    authErrorDiv.classList.add("hidden");
                     updateUserDisplay(userEmail);
                     resetAndRenderInitial();
                 } else {
-                    document.getElementById("authError").innerText = `Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula.`;
-                    document.getElementById("authError").classList.remove("hidden");
+                    authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Emel (${userEmail}) tiada dalam rekod keahlian JPro. Sila semak semula atau dendaftar di bawah.`;
+                    authErrorDiv.classList.remove("hidden");
                 }
             } catch (e) {
-                document.getElementById("authError").innerText = "Gagal menyemak pangkalan data JPro. Sila cuba lagi.";
-                document.getElementById("authError").classList.remove("hidden");
+                authErrorText.innerHTML = `<i class="fa-solid fa-circle-exclamation mr-1"></i> Gagal menyemak pangkalan data JPro. Sila cuba lagi.`;
+                authErrorDiv.classList.remove("hidden");
             }
         }
 
@@ -699,7 +722,7 @@
             const grid = document.getElementById('directoryGrid');
             grid.innerHTML = '';
             currentlyRenderedIndex = 0;
-            myProfileRendered = false; // RESET FLAG UPON RE-RENDER
+            myProfileRendered = false;
             appendNextBatch(INITIAL_LIMIT);
         }
 
@@ -735,11 +758,10 @@
                 kemahiran = kemahiran || m.kemahiran || '';
                 linkedin = linkedin || m.linkedin || '#';
 
-                // LOGIK KETAT: HANYA HANTAR SATU BADGE SAHAJA
                 let isCurrentUser = false;
                 if (!myProfileRendered && loggedInEmail && email && email === loggedInEmail) {
                     isCurrentUser = true;
-                    myProfileRendered = true; // KUNCI BADGE SUPAYA TIDAK DILABEL DUA KALI
+                    myProfileRendered = true;
                 }
 
                 const initials = nama.split(' ').map(n => n[0]).slice(0, 2).join('');
